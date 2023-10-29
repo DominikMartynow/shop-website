@@ -76,6 +76,8 @@
                                 } else {
                                     echo "Sklep został <b>zamknięty</b>";
                                 }
+                            } else {
+                                echo "Dzisiaj sklep jest nieczynny";
                             }
                         }
                     }
