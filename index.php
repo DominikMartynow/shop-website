@@ -100,8 +100,8 @@
     <div id="contact">
         <h1>Kontakt</h1>
         <ul id=contact-box class=flex-box>
-            <li class=contact-option id=phone-number><img class="icon" src="icons/icons8-phone-50.png" alt="phone-icon"><a href="tel: 607 504 232">607 504 232</a></li>
-            <li class=contact-option id=mail><img class="icon" src="icons/icons8-mail-50.png" alt="mail-icon"><a href="mailto: mail@example.com">mail@example.com</a></li>
+            <li class=contact-option id=phone-number><img class="icon" src="ico/icons8-phone-50.png" alt="phone-icon"><a href="tel: 607 504 232">607 504 232</a></li>
+            <li class=contact-option id=mail><img class="icon" src="ico/icons8-mail-50.png" alt="mail-icon"><a href="mailto: mail@example.com">mail@example.com</a></li>
         </ul>
 
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d78720.40938819876!2d16.228148843359378!3d51.9337202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4705bf8541751b47%3A0x8ad445265a9aebdf!2sOdzie%C5%BC%20Obuwie%20Pasmanteria!5e0!3m2!1spl!2spl!4v1698067635568!5m2!1spl!2spl" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

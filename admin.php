@@ -58,7 +58,7 @@
 
                 $conn = OpenConn();
 
-                $sql = "SELECT * FROM exceptions WHERE date >= '".$date."'";
+                $sql = "SELECT * FROM exceptions WHERE date <= '".$date."'";
                 $result = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($result) > 0) {
