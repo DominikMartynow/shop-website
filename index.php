@@ -47,11 +47,11 @@
                             $close = $row['close'];
 
                             if($time < $open) {
-                                echo "Dzisiaj jesteśmy otwarci od <b>".$open.":00</b>";
+                                echo "Dzisiaj sklep jest otwarty od godziny <b>".$open.":00</b>";
                             } else if ($time >= $open && $time <= $close) {
-                                echo "Dzisiaj jesteśmy otwarci do godziny <b>".$close.":00</b>";
+                                echo "Dzisiaj sklep jest otwarty do godziny <b>".$close.":00</b>";
                             } else {
-                                echo "Sklep został <b>zamknięty</b>";
+                                echo "Sklep jest już dzisiaj <b>nieczynny</b>";
                             }
                         } else {
                             echo "Dzisiaj sklep jest <b>nieczynny</b>";
@@ -62,19 +62,19 @@
                         if($dayOfWeek != 7) {
                             if($dayOfWeek >= 1 && $dayOfWeek <= 5) {
                                 if($time < 8) {
-                                    echo "Dzisiaj jesteśmy otwarci od godziny <b>8:00</b>";
+                                    echo "Dzisiaj sklep jest otwarty od godziny <b>8:00</b>";
                                 } else if ($time >= 8 && $time <= 17) {
-                                    echo "Dzisiaj jesteśmy otwarci do godziny <b>17:00</b>";
+                                    echo "Dzisiaj sklep jest otwarty do godziny <b>17:00</b>";
                                 } else {
                                     echo "Sklep został <b>zamknięty</b>";
                                 }
                             } else if($dayOfWeek == 6) {
                                 if($time < 8) {
-                                    echo "Dzisiaj jesteśmy otwarci od godziny <b>8:00</b>";
+                                    echo "Dzisiaj sklep jest otwarty od godziny <b>8:00</b>";
                                 } else if ($time >= 8 && $time <= 17) {
-                                    echo "Dzisiaj jesteśmy otwarci do godziny <b>13:00</b>";
+                                    echo "Dzisiaj sklep jest otwarty do godziny <b>13:00</b>";
                                 } else {
-                                    echo "Sklep został <b>zamknięty</b>";
+                                    echo "Dzisiaj sklep jest <b>nieczynny</b>";
                                 }
                             } else {
                                 echo "Dzisiaj sklep jest nieczynny";

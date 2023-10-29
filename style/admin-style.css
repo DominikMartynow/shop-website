@@ -33,14 +33,23 @@ header {
 
 #config_date_form > label {
     float: left;
+    text-align: right;
     width: 300px;
-    margin-top: 5px;
 }
 
 #config_date_form > input {
     float: right;
     width: 300px;
     padding: 0;
-    margin-top: 5px;
 }
 
+#product-add {
+    margin-top: 10px;
+    width: max-content;
+    height: max-content;
+    border: 1px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}

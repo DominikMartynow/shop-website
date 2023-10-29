@@ -43,7 +43,6 @@
             <input type="submit" value="Wyślij zmiany"><br><br>
         </form>
 
-        
         <br>
 
         <table id=exceptions_table_list border>
@@ -78,6 +77,42 @@
                 close($conn);
             ?>
         </table>
+    </div>
+
+    <div id="product-add">
+        <h1>DODAJ NOWY PRODUKT</h1>
+
+        <?php 
+        $conn = OpenConn();
+
+        $sql = "SELECT * FROM product_category";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $product_categories = array();
+            while($row = mysqli_fetch_assoc($result)) {
+                $product_categories[$row['id_product_category']] = $row['product_category_name'];
+            }
+        }
+
+        close($conn);
+        ?>
+
+        <form action="product_add.php" method="post">
+            <label for="product_name">Nazwa produktu: </label>
+            <input type="text" name="product_name"><br>
+            <label for="product_category">Wybierz kategorię:</label>
+            <select name="product_category"><br>
+                <option value="" disabled selected>Wybierz kategorię</option>
+                <?php 
+                    foreach($product_categories as $key => $value) {
+                        echo "<option value=".$key.">".$value."</option>";
+                    }    
+                ?>
+            </select>
+            <label for="is_variant">Czy produkt ma warianty?</label>
+            <input type="checkbox" name="is_variant">
+        </form>
     </div>
     
 </body>
