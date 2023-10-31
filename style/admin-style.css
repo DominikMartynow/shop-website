@@ -50,6 +50,21 @@ header {
     border: 1px solid black;
     padding: 10px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+}
+
+#product-add > label {
+    float: left;
+    text-align: right;
+    width: 300px;
+}
+
+#product-add > input {
+    float: right;
+    width: 300px;
+    padding: 0;
+}
+
+.product_photo {
+    width: 80px;
+    height: 80px;
 }

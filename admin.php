@@ -101,18 +101,43 @@
         <form action="product_add.php" method="post">
             <label for="product_name">Nazwa produktu: </label>
             <input type="text" name="product_name"><br>
-            <label for="product_category">Wybierz kategorię:</label>
+            <label for="product_category">Wybierz kategorię: </label>
             <select name="product_category"><br>
-                <option value="" disabled selected>Wybierz kategorię</option>
+                <option value="" disabled selected></option>
                 <?php 
                     foreach($product_categories as $key => $value) {
                         echo "<option value=".$key.">".$value."</option>";
                     }    
                 ?>
-            </select>
-            <label for="is_variant">Czy produkt ma warianty?</label>
-            <input type="checkbox" name="is_variant">
+            </select><br>
+            <label for="is_variant">Czy produkt ma warianty?: </label>
+            <input type="checkbox" name="is_variant"><br>
+            <label for="product_color">Kolor przewodni: </label>
+            <input type="color" id="product_color"><br>
+            <label for="product_photos">Zdjęcia produktu: </label>
+            <input type="file" id="product_photos" accept="image/*" multiple onchange="displayPhotos()">
         </form>
+
+        <div id="zdjecia">
+
+        </div>
+
+        <script>
+            function displayPhotos() {
+                let photos = document.getElementById("product_photos").files;
+
+                let zdjecia = document.getElementById("zdjecia")
+
+                for(i = 0; i < photos.length; i++) {
+                    photo = URL.createObjectURL(photos[i]);
+
+                    document.getElementById("zdjecia").innerHTML += "<img class=product_photo id=product_photo"+i+" src="+photo+">"
+
+                    //URL.revokeObjectURL(photo)
+                }
+            }
+
+        </script>
     </div>
     
 </body>

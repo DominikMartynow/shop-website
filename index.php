@@ -54,7 +54,7 @@
                                 echo "Sklep jest już dzisiaj <b>nieczynny</b>";
                             }
                         } else {
-                            echo "Dzisiaj sklep jest <b>nieczynny</b>";
+                            echo "Dzisiaj sklep jest już<b>nieczynny</b>";
                         }
                     } else if(mysqli_num_rows($result) > 1) {
                         exit();
@@ -66,7 +66,7 @@
                                 } else if ($time >= 8 && $time <= 17) {
                                     echo "Dzisiaj sklep jest otwarty do godziny <b>17:00</b>";
                                 } else {
-                                    echo "Sklep został <b>zamknięty</b>";
+                                    echo "Sklep jest już dzisiaj <b>nieczynny</b>";
                                 }
                             } else if($dayOfWeek == 6) {
                                 if($time < 8) {
@@ -74,7 +74,7 @@
                                 } else if ($time >= 8 && $time <= 17) {
                                     echo "Dzisiaj sklep jest otwarty do godziny <b>13:00</b>";
                                 } else {
-                                    echo "Dzisiaj sklep jest <b>nieczynny</b>";
+                                    echo "Sklep jest już dzisiaj <b>nieczynny</b>";
                                 }
                             } else {
                                 echo "Dzisiaj sklep jest nieczynny";
