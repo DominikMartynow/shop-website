@@ -112,28 +112,28 @@
             </select><br>
             <label for="is_variant">Czy produkt ma warianty?: </label>
             <input type="checkbox" name="is_variant"><br>
-            <label for="product_color">Kolor przewodni: </label>
-            <input type="color" id="product_color"><br>
-            <label for="product_photos">Zdjęcia produktu: </label>
-            <input type="file" id="product_photos" accept="image/*" multiple onchange="displayPhotos()">
+            <label for="product_photos">Zdjęcia produktu: </label><br>
+            <input type="file" id="product_photos" accept="image/*" multiple onchange="displayPhotos()"><br>
+            
+            <div id="photos"></div>
+
+            <label for="producer">Producent: </label>
+            <input type="text" id="producer"><br>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
         </form>
-
-        <div id="zdjecia">
-
-        </div>
 
         <script>
             function displayPhotos() {
+                document.getElementById('photos').innerHTML = '';
+
                 let photos = document.getElementById("product_photos").files;
 
-                let zdjecia = document.getElementById("zdjecia")
+                let zdjecia = document.getElementById("photos")
 
                 for(i = 0; i < photos.length; i++) {
                     photo = URL.createObjectURL(photos[i]);
 
-                    document.getElementById("zdjecia").innerHTML += "<img class=product_photo id=product_photo"+i+" src="+photo+">"
-
-                    //URL.revokeObjectURL(photo)
+                    document.getElementById("photos").innerHTML += "<img class=product_photo id=product_photo"+i+" src="+photo+">"
                 }
             }
 
