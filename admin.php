@@ -110,8 +110,8 @@
                     }    
                 ?>
             </select><br>
-            <label for="is_variant">Czy produkt ma warianty?: </label>
-            <input type="checkbox" name="is_variant"><br>
+            <label for="is_variant">Warianty produktu: </label>
+            <input type="button" id="is_variant" value="lista"><br>
             <label for="product_photos">Zdjęcia produktu: </label><br>
             <input type="file" id="product_photos" accept="image/*" multiple onchange="displayPhotos()"><br>
             
