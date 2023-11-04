@@ -98,7 +98,7 @@
         close($conn);
         ?>
 
-        <form action="product_add.php" method="post">
+        <form action="db_conn/product_add.php" method="post">
             <label for="product_name">Nazwa produktu: </label>
             <input type="text" name="product_name"><br>
             <label for="product_category">Wybierz kategorię: </label>
@@ -120,6 +120,8 @@
             <label for="producer">Producent: </label>
             <input type="text" id="producer"><br>
             <textarea name="" id="" cols="30" rows="10"></textarea>
+
+            <input type="submit" value="Dodaj produkt">
         </form>
 
         <script>
