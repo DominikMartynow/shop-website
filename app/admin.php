@@ -98,7 +98,7 @@
         close($conn);
         ?>
 
-        <form action="db_conn/product_add.php" method="post">
+        <form action="db_conn/product_add.php" method="post" enctype="multipart/form-data">
             <label for="product_name">Nazwa produktu: </label>
             <input type="text" name="product_name"><br>
             <label for="product_category">Wybierz kategorię: </label>
@@ -110,16 +110,16 @@
                     }    
                 ?>
             </select><br>
-            <label for="is_variant">Warianty produktu: </label>
-            <input type="button" id="is_variant" value="lista"><br>
+            <label for="variant">Warianty produktu: </label>
+            <input type="button" id="variant" value="lista"><br>
             <label for="product_photos">Zdjęcia produktu: </label><br>
-            <input type="file" id="product_photos" accept="image/*" multiple onchange="displayPhotos()"><br>
+            <input type="file" id="product_photos" name="product_photos" accept="image/*" multiple onchange="displayPhotos()"><br>
             
             <div id="photos"></div>
 
             <label for="producer">Producent: </label>
             <input type="text" id="producer"><br>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea id="product_description" cols="30" rows="10"></textarea>
 
             <input type="submit" value="Dodaj produkt">
         </form>
@@ -135,10 +135,17 @@
                 for(i = 0; i < photos.length; i++) {
                     photo = URL.createObjectURL(photos[i]);
 
-                    document.getElementById("photos").innerHTML += "<img class=product_photo id=product_photo"+i+" src="+photo+">"
+                    document.getElementById("photos").innerHTML += "<img class=product_photo id='product_photo"+i+"' data-value="+i+" src="+photo+" onclick='handle_click(this)'>"
                 }
             }
 
+            function handle_click(photo) {
+                console.log("kilkineto")
+
+                let choosen_photo = document.getElementById(photo.id).getAttribute("data-value")
+
+                choosen_photo = document
+            }
         </script>
     </div>
     
