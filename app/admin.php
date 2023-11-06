@@ -17,7 +17,7 @@
         <a>Zalogowano użytkownika <?php echo $_SESSION['login']; ?></a>
 
         <?php 
-            $date = date('d.m.Y');
+            $date = date('Y-m-d');
             $time = date('H:i:s');
 
             if(isset($_GET['error'])) {
@@ -57,7 +57,9 @@
 
                 $conn = OpenConn();
 
-                $sql = "SELECT * FROM exceptions WHERE date <= '".$date."'";
+                echo $date;
+
+                $sql = "SELECT * FROM exceptions WHERE date >= '".$date."'";
                 $result = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($result) > 0) {
@@ -113,7 +115,7 @@
             <label for="variant">Warianty produktu: </label>
             <input type="button" id="variant" value="lista"><br>
             <label for="product_photos">Zdjęcia produktu: </label><br>
-            <input type="file" id="product_photos" name="product_photos" accept="image/*" multiple onchange="displayPhotos()"><br>
+            <input type="file" id="product_photos" name="product_photos[]" accept="image/*" multiple onchange="displayPhotos()"><br>
             
             <div id="photos"></div>
 
@@ -126,6 +128,8 @@
 
         <script>
             function displayPhotos() {
+                document.cookie = "main_photo = "
+
                 document.getElementById('photos').innerHTML = '';
 
                 let photos = document.getElementById("product_photos").files;
@@ -135,18 +139,34 @@
                 for(i = 0; i < photos.length; i++) {
                     photo = URL.createObjectURL(photos[i]);
 
-                    document.getElementById("photos").innerHTML += "<img class=product_photo id='product_photo"+i+"' data-value="+i+" src="+photo+" onclick='handle_click(this)'>"
+                    document.getElementById("photos").innerHTML += "<img class=product_photo id='product_photo"+i+"' number="+i+" src="+photo+" onclick='handle_click(this)'>"
+
                 }
             }
 
             function handle_click(photo) {
                 console.log("kilkineto")
 
-                let choosen_photo = document.getElementById(photo.id).getAttribute("data-value")
+                photos = document.getElementsByClassName("product_photo")
 
-                choosen_photo = document
+                for(let i = 0; i < photos.length; i++){
+                    try {
+                        photos[i].removeAttribute("main")
+                    } finally {
+                        photos[i].removeAttribute("main")
+                        photos[i].style.border = "0px";
+                    }
+                }
+
+                let choosen_photo = document.getElementById(photo.id);
+
+                choosen_photo.setAttribute("main", 1)
+                choosen_photo.style.border = "1px solid blue";
+                
+                document.cookie = "main_photo ="+choosen_photo.getAttribute("number")
             }
         </script>
+
     </div>
     
 </body>
