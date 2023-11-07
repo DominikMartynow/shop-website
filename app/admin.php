@@ -59,8 +59,6 @@
 
                 $conn = OpenConn();
 
-                echo $date;
-
                 $sql = "SELECT * FROM exceptions WHERE date >= '".$date."'";
                 $result = mysqli_query($conn, $sql);
 
@@ -102,7 +100,7 @@
         close($conn);
         ?>
 
-        <form action="db_conn/product_add.php" method="post" enctype="multipart/form-data">
+        <form id=product-add-form action="db_conn/product_add.php" method="post" enctype="multipart/form-data">
             <label for="product_name">Nazwa produktu: </label>
             <input type="text" name="product_name"><br>
             <label for="product_category">Wybierz kategorię: </label>
@@ -121,7 +119,7 @@
 
             <label for="producer">Producent: </label>
             <input type="text" id="producer" name="producer"><br>
-            <textarea id="product_description" name="product_description" cols="30" rows="10"></textarea>
+            <textarea id="product_description" name="product_description" cols="30" rows="10"></textarea><br>
 
             <input type="submit" value="Dodaj produkt">
         </form>

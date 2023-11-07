@@ -49,19 +49,25 @@ header {
     height: max-content;
     border: 1px solid black;
     padding: 10px;
+    padding-bottom: 30px;
     box-sizing: border-box;
 }
 
-#product-add > label {
+#product-add-form > label {
     float: left;
     text-align: right;
     width: 300px;
 }
 
-#product-add > input {
+#product-add-form > input {
     float: right;
     width: 300px;
     padding: 0;
+}
+
+#product-add-form > textarea{
+    max-width:600px;
+    min-width: 600px;
 }
 
 .product_photo {
