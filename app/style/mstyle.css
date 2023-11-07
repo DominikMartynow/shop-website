@@ -23,4 +23,8 @@
     h1 {
         text-align: center;
     }
+
+    #site-path {
+        display: none;
+    }
 }

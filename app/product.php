@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/mstyle.css">
 </head>
+
+
+
 <body>
     <header class=flex-box>
         <a href="index.php" id="logo">Sklep Wielobranżowy</a>
@@ -22,5 +25,83 @@
             </ul>
         </nav>
     </header>
+
+    <?php 
+        if(isset($_GET['product_id'])) {
+            $product_id = $_GET['product_id'];
+
+            include "db_conn/connect.php";
+
+            $conn = OpenConn();
+        
+            $sql = "SELECT * FROM products INNER JOIN product_category ON products.id_product_category = product_category.id_product_category WHERE products.id_products='".$product_id."';";
+            $result = mysqli_query($conn, $sql);
+
+            close($conn);
+
+            if(mysqli_num_rows($result) === 1) {
+                $row = mysqli_fetch_assoc($result);
+                    $product_name = $row['product_name'];
+                    $producer = $row['producer'];
+                    $product_category = $row['product_category_name'];
+                    try {
+                        $product_photos = $row['product_photos'];
+
+                        $product_photos = explode(", ", $product_photos);
+
+                        foreach($product_photos as $key => $fullname) {
+                            $photo_name = explode("/", $fullname);
+                            $photo_name = end($photo_name);
+                            
+                            if(mb_substr($photo_name, 0, 1) == "m") {
+                                $main_photo = $photo_name;
+                                $photos[$key] = $photo_name;
+                            } else {
+                                $photos[$key] = $photo_name;
+                            }
+                        }
+
+                    } finally {
+                        $product_phots[0] = "uploaded_photos/placeholder.jpg";
+                        $product_photo = $product_phots[0];
+                    }
+
+                    $product_description = $row['product_description'];
+
+    ?>          
+
+    <div id="product-main">
+        
+        <nav id="site-path">
+            <a href="shop.php">sklep</a>
+            <a> > </a>
+            <a href="shop.php?cat=".<?php echo $product_category?>.><?php echo $product_category?></a>
+            <a> > </a>
+        </nav>
+
+        <div id="product-basic-info">
+            <div id="photo-box">
+                <img id="main-photo" src=uploaded_photos/<?php echo $main_photo; ?>>
+
+                </img>
+                <div id="gallery">
+                    <div class="gallery-photo">
+
+                    </div>
+                </div>
+            </div>
+            <div id="info-box">
+                <h2></h2>
+                <a href="" id="producer"></a>
+            </div>
+        </div>
+    </div>
+
+    <?php 
+            }
+        } else {
+            echo "<p id=error-response-for-client>WYBRANY PRODUKT NIE ISTNIEJE :( </p><p id=error-back-link><a href='shop.php'>Wyszukaj inny produkt</a></p>";
+        }
+    ?>
 </body>
 </html>
