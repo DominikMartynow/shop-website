@@ -26,6 +26,8 @@
                 echo "<a class=success>".$date." ".$time." | <b>".$_GET['success']."</b></a>";
             }
         ?>
+
+        <a href="db_conn/logout.php">Wyloguj się</a>
     </header>
 
     <div id="exceptions-config">
@@ -112,16 +114,14 @@
                     }    
                 ?>
             </select><br>
-            <label for="variant">Warianty produktu: </label>
-            <input type="button" id="variant" value="lista"><br>
             <label for="product_photos">Zdjęcia produktu: </label><br>
             <input type="file" id="product_photos" name="product_photos[]" accept="image/*" multiple onchange="displayPhotos()"><br>
             
             <div id="photos"></div>
 
             <label for="producer">Producent: </label>
-            <input type="text" id="producer"><br>
-            <textarea id="product_description" cols="30" rows="10"></textarea>
+            <input type="text" id="producer" name="producer"><br>
+            <textarea id="product_description" name="product_description" cols="30" rows="10"></textarea>
 
             <input type="submit" value="Dodaj produkt">
         </form>
