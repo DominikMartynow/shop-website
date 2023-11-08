@@ -19,7 +19,7 @@
 
         <nav>
             <ul id=menu>
-                <a class="menu-item" href="#main"><li>Home</li></a>
+                <a class="menu-item" href="index.php#main"><li>Home</li></a>
                 <a class="menu-item" href="#assortment"><li>Asortyment</li></a>
                 <a class="menu-item" href="#contact"><li>Kontakt</li></a>
             </ul>
@@ -44,26 +44,21 @@
                     $product_name = $row['product_name'];
                     $producer = $row['producer'];
                     $product_category = $row['product_category_name'];
-                    try {
-                        $product_photos = $row['product_photos'];
+                    $product_photos = $row['product_photos'];
 
-                        $product_photos = explode(", ", $product_photos);
+                    $product_photos = explode(", ", $product_photos);
 
-                        foreach($product_photos as $key => $fullname) {
-                            $photo_name = explode("/", $fullname);
-                            $photo_name = end($photo_name);
-                            
-                            if(mb_substr($photo_name, 0, 1) == "m") {
-                                $main_photo = $photo_name;
-                                $photos[$key] = $photo_name;
-                            } else {
-                                $photos[$key] = $photo_name;
-                            }
+                    foreach($product_photos as $key => $fullname) {
+                        $photo_name = explode("/", $fullname);
+                        $photo_name = end($photo_name);
+                        
+                        if(mb_substr($photo_name, 0, 1) == "m") {
+                            $main_photo_key = $key;
+                            $main_photo = $photo_name;
+                            $photos[$key] = $photo_name;
+                        } else {
+                            $photos[$key] = $photo_name;
                         }
-
-                    } finally {
-                        $product_phots[0] = "uploaded_photos/placeholder.jpg";
-                        $product_photo = $product_phots[0];
                     }
 
                     $product_description = $row['product_description'];
@@ -71,7 +66,6 @@
     ?>          
 
     <div id="product-main">
-        
         <nav id="site-path">
             <a href="shop.php">sklep</a>
             <a> > </a>
@@ -81,21 +75,63 @@
 
         <div id="product-basic-info">
             <div id="photo-box">
-                <img id="main-photo" src=uploaded_photos/<?php echo $main_photo; ?>>
-
-                </img>
+                <div photo-number="0" id="main-photo" style='background-image: url("uploaded_photos/<?php echo $main_photo; ?>")'></div>
                 <div id="gallery">
-                    <div class="gallery-photo">
+                    <?php 
+                        echo "<div photo-number=".$main_photo_key." class=gallery-photo style='background-image: url(uploaded_photos/".$main_photo.")' onclick='handle_click(this)'></div>";
 
-                    </div>
+                        foreach($photos as $key => $fullname) {
+                            if($key != $main_photo_key) {
+                                echo "<div photo-number=".$key." class=gallery-photo style='background-image: url(uploaded_photos/".$photos[$key].")' onclick='handle_click(this)'></div>";
+                            }
+                        }
+                    ?>
                 </div>
             </div>
             <div id="info-box">
-                <h2></h2>
-                <a href="" id="producer"></a>
+                <h2 id=product-name><?php echo $product_name;?></h2>
+                <a href="" id="producer"><?php echo $producer;?><a>
             </div>
         </div>
+
+        <div id="product_description">
+            <?php echo $product_description; ?>
+        </div>
     </div>
+
+    <script>
+    photos = document.getElementsByClassName("gallery-photo")
+
+    if(photos.length < 6) {
+        document.getElementById("gallery").style.overflow = "hidden";
+    }
+
+        function handle_click(photo) {
+            main = document.getElementById("main-photo")
+
+            photos = document.getElementsByClassName("gallery-photo")
+
+            if(photos.length < 6) {
+                document.getElementById("gallery").style.overflow = "hidden";
+            }
+
+            for(let i = 0; i < photos.length; i++){
+                try {
+                    photos[i].removeAttribute("id")
+                } finally {
+                    photos[i].removeAttribute("id")
+                }
+             }
+            
+            photo.setAttribute("id", "choosen")
+
+            file_name = photo.getAttribute("style")
+            file_name = file_name.split(": ");
+            file_name = file_name[1]
+
+            main.style.backgroundImage = file_name
+        }
+    </script>
 
     <?php 
             }

@@ -171,9 +171,11 @@ footer {
     width: 100%;
     max-width: 1200px;
     margin: auto;
-    height: max-content;
+    height: auto;
     padding: 10px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 #site-path {
@@ -191,14 +193,87 @@ footer {
 }
 
 #product-basic-info {
-    height: 400px;
+    height: 500px;
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: flex-start
+}
+
+#photo-box {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start
 }
 
 #main-photo{
-    width: 100px;
-    background-image: url("test.jpg");
-    height: 100px;
+    width: 100%;
+    max-width: 498px;
+    height: 498px;
+    border: 1px solid rgb(235, 235, 235);
+    background-position: center;
+    background-size: cover;
 }
+
+#gallery {
+    width: 100px;
+    height:  max-content;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.gallery-photo {
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+}
+
+#choosen {
+    width: 90px;
+    height: 90px;
+    border: 5px solid gray;
+}
+
+#info-box {
+    box-sizing: border-box;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+#product-name {
+    width: 100%;
+    max-width: 600px;
+    text-transform: uppercase;
+    text-wrap: wrap;
+    font-size: 40px;
+    letter-spacing: 5px;
+}
+
+#producer {
+    font-size: 20px;
+    font-weight: bolder;
+    color: gray;
+}
+
+#product_description {
+    margin-top: 20px;
+    width: 100%;
+    height: max-content;
+    padding: 5%;
+    box-sizing: border-box;
+    background: rgb(248, 248, 248);
+    letter-spacing: 2px;
+    font-size: 20px;
+}   

@@ -54,7 +54,7 @@
                                 echo "Sklep jest już dzisiaj <b>nieczynny</b>";
                             }
                         } else {
-                            echo "Dzisiaj sklep jest już<b>nieczynny</b>";
+                            echo "Dzisiaj sklep jest <b>nieczynny</b>";
                         }
                     } else if(mysqli_num_rows($result) > 1) {
                         exit();
@@ -77,7 +77,7 @@
                                     echo "Sklep jest już dzisiaj <b>nieczynny</b>";
                                 }
                             } else {
-                                echo "Dzisiaj sklep jest nieczynny";
+                                echo "Dzisiaj sklep jest <b>nieczynny</b>";
                             }
                         }
                     }

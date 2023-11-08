@@ -23,7 +23,7 @@
                 $extension = explode(".", $target_file);
                 $extension = end($extension);
                 if($i == $main) {
-                    $target_file = $target_dir . "main-" . "-". time() . "-" . $i .".".$extension;
+                    $target_file = $target_dir . "main" . "-". time() . "-" . $i .".".$extension;
                     $photos[$i] = $target_file;
                 } else {
                     $target_file = $target_dir . time() ."-". $i .".".$extension;
