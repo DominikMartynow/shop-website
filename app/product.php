@@ -19,9 +19,9 @@
 
         <nav>
             <ul id=menu>
-                <a class="menu-item" href="index.php#main"><li>Home</li></a>
-                <a class="menu-item" href="#assortment"><li>Asortyment</li></a>
-                <a class="menu-item" href="#contact"><li>Kontakt</li></a>
+                <a class="menu-item" href="shop.php"><li>Sklep</li></a>
+                <a class="menu-item" href="basket.php"><li>Koszyk</li></a>
+                <a class="menu-item" href="account.php"><li>Konto</li></a>
             </ul>
         </nav>
     </header>
@@ -43,6 +43,7 @@
                 $row = mysqli_fetch_assoc($result);
                     $product_name = $row['product_name'];
                     $producer = $row['producer'];
+                    $product_category_id = $row['id_product_category'];
                     $product_category = $row['product_category_name'];
                     $product_photos = $row['product_photos'];
 
@@ -69,7 +70,7 @@
         <nav id="site-path">
             <a href="shop.php">sklep</a>
             <a> > </a>
-            <a href="shop.php?cat=".<?php echo $product_category?>.><?php echo $product_category?></a>
+            <a href="shop.php?category_id=<?php echo $product_category_id?>"><?php echo $product_category?></a>
             <a> > </a>
         </nav>
 
@@ -90,7 +91,9 @@
             </div>
             <div id="info-box">
                 <h2 id=product-name><?php echo $product_name;?></h2>
-                <a href="" id="producer"><?php echo $producer;?><a>
+                <a href="shop.php?producer=<?php echo $producer;?>" id="producer"><?php echo $producer;?><a>
+                <a href="add_to_basket.php" id="add-to-basket">Dodaj do koszyka <img class="add-to-basket-ico" src="ico/icons8-plus-50.png"></a>
+    
             </div>
         </div>
 

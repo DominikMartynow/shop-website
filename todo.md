@@ -1,0 +1,22 @@
+Strona sklepu główna:
+>wyszukiwanie produktów, sortowanie itp
+>miniaturki wyśweitlające głowne zdjecia, tytuly oraz markę
+>Strona wysiwetla maksymalna ilosc produktow okreslona przez uzytkownika
+
+Produkt
+Dodawanie do koszyka, po dodaniu zmiana przycisku
+Komentarze dotyczace produktu, mozliwosc dyskusji
+Jesli user niezalogowany, komunikat o zalogowaniu sie zanim dodawanie produktu
+
+Koszyk
+Zlozenie rezerwacji
+Otrzymanie kodu rezerwacji, wyslanie go na maila
+Przy napisie koszykj wyswitla sie liczba produktow zawartych w nim
+
+ADMIN
+Widok rezerwacji imie, nazwisko klienta, co zamowil, kiedy odbior
+Edycja produktow
+Zatwerdzanie komentarzy
+
+Uzytkownicy
+Strona logowania oraz rejestracji nowych uzytkownikow
