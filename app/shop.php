@@ -1,0 +1,1 @@
+<a href="product.php?product_id=27">zobacz</a>

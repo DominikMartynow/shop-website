@@ -54,20 +54,22 @@ nav {
     display: inline-flex;
     display: flex;
     justify-content: space-around;
-    padding: 10px;
+    align-items: center;
 }
 
 .menu-item {
-    width: max-content;
+    width: 33%;
+    line-height: 56px;
     padding: 5px;
     color: black;
+    text-align: center;
 }
 
 .menu-item:hover {
-    font-weight: bold;
+    background: rgb(207, 207, 207);
 }
 
-main {
+#index {
     display: flex;
     background-image: url(../img/main-photo.jpg);
     width: 100vw;
@@ -303,3 +305,70 @@ h2 {
     margin-left: 13px;
 }
 
+#wrapper-account-menu {
+    display: none;
+    flex-direction: column;
+    background: rgb(207, 207, 207);
+    position: absolute;
+    right: 0;
+    width: max-content;
+    top: 66px;
+}
+
+#unwrap-account-menu:hover #wrapper-account-menu {
+    display: flex;
+}
+
+.wrapper-account-menu-item {
+    box-sizing: border-box;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 400px;
+}
+
+.wrapper-account-menu-item:hover {
+    background: rgb(184, 184, 184);
+}
+
+#wrapper-logout {
+    color: rgb(201, 0, 0);
+    border-top: 1px solid gray;
+}
+
+#login-site {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    margin-top: 10%;
+    position:fixed;
+    justify-content: center;
+}
+
+#login-box {
+    display: flex;
+    flex-direction: column;
+    background: rgb(248, 248, 248);
+    width: max-content;
+    height: max-content;
+    padding: 30px;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form > input {
+    width: 200px;
+    padding: 10px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    background: white;
+    border: 0px;
+}
+
+#login-form > input#submit-login {
+    box-sizing: content-box;
+    background: forestgreen;
+}

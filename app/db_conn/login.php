@@ -3,48 +3,50 @@
 
     include 'connect.php';
 
-    if(isset($_POST['login']) && isset($_POST['password'])) {
-        function validate($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);    
-            return $data;
-        }
+    function validate($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);    
+        return $data;
+    }
 
-        $login = validate($_POST['login']);
-        $password = validate($_POST['password']);
+    $mail = validate($_POST['mail']);
+    $password = validate($_POST['password']);
 
-        if(empty($login)) {
-            header("Location: ../login-site.php?error=login wymagany");
-        } else if (empty($password)) {
-            header("Location: ../login-site.php?error=hasło wymagane");
-        } else {
-            $conn = OpenConn();
+    if(empty($mail)) {
+        header("Location: ../login-site.php?error=Adres email wymagany");
+    } else if (empty($password)) {
+        header("Location: ../login-site.php?error=Hasło wymagane");
+    } else {
+        $conn = OpenConn();
 
-            $sql = "SELECT * FROM users WHERE login LIKE '".$login."'";
-            $result = mysqli_query($conn, $sql);
+        $sql = "SELECT * FROM users WHERE mail LIKE '".$mail."'";
+        $result = mysqli_query($conn, $sql);
 
-            close($conn);
+        close($conn);
 
-            if(mysqli_num_rows($result) === 1) {
-                $row = mysqli_fetch_assoc($result);
+        if(mysqli_num_rows($result) === 1) {
+            $row = mysqli_fetch_assoc($result);
 
-                if($row['login'] === $login && $row['password'] === $password) {
-                    $_SESSION['login'] = $row['login'];
-                    $_SESSION['password'] = $row['password'];
+            if($row['mail'] === $mail && $row['password'] === $password) {
+                $_SESSION['id'] = $row['id_user'];
+                $_SESSION['login'] = $row['login'];
+                $_SESSION['password'] = $row['password'];
+                $_SESSION['mail'] = $row['mail'];
 
+                $_SESSION['admin'] = 0;
+
+                if($row["admin"] == 1) {
+                    $_SESSION["admin"] = 1;
                     header("Location: ../admin.php");
                 } else {
-                    header("Location: ../login-site.php?error=bledny login i/lub hasło");
+                    header("Location: ../shop.php");
                 }
             } else {
-                header("Location: ../login-site.php?error=użytkownik nie istnieje");
+                header("Location: ../login-site.php?error=Błędny login i/lub hasło");
             }
-
+        } else {
+            header("Location: ../login-site.php?error=Użytkownik nie istnieje");
         }
-
-
-    } else {
-        header("Location: ../login-site.php?error=podaj dane logowania");
     }
 ?>

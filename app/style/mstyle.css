@@ -25,6 +25,18 @@
         display: inline-flex;
     }
 
+    .wrapper-account-menu-item {
+        min-width: 200px;
+    }
+
+    #unwrap-account-menu:hover #wrapper-account-menu {
+        display: none;
+    }
+
+    .menu-item:hover {
+        text-decoration: underline;
+        background: white;
+    }
 }
 
 @media (max-width: 800px) {

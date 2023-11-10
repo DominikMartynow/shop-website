@@ -20,3 +20,5 @@ Zatwerdzanie komentarzy
 
 Uzytkownicy
 Strona logowania oraz rejestracji nowych uzytkownikow
+Przypomnienie hasła
+Rejestracja nowych użytkowników

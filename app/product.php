@@ -19,9 +19,17 @@
 
         <nav>
             <ul id=menu>
-                <a class="menu-item" href="shop.php"><li>Sklep</li></a>
-                <a class="menu-item" href="basket.php"><li>Koszyk</li></a>
-                <a class="menu-item" href="account.php"><li>Konto</li></a>
+                <li class="menu-item"><a href="shop.php">Sklep</a></li>
+                <li class="menu-item"><a href="basket.php">Koszyk</a></li>
+                <li class="menu-item" id=unwrap-account-menu>
+                    <a href="account.php">Konto</a>
+                    <ul id=wrapper-account-menu>
+                        <li class=wrapper-account-menu-item>Twoje konto</li>
+                        <li class=wrapper-account-menu-item>Rezerwacje</li>
+                        <li class=wrapper-account-menu-item>Ustawienia</li>
+                        <a href="db_conn/logout.php"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się</li></a>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>

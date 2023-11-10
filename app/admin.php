@@ -1,7 +1,8 @@
 <?php 
     session_start();
 
-    if(isset($_SESSION['login']) && isset($_SESSION['password'])){
+    if(isset($_SESSION['id']) && isset($_SESSION['password'])){
+        if($_SESSION["admin"] == 1) {
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +72,7 @@
                         } else {
                             $isOpen = "Zamkniete";
                         }
-
+                        print_r($_SESSION);
                         echo "<tr><td>".$row["id_exception"]."</td><td>".$row["date"]."</td><td>".$isOpen."</td><td>".$row['open']."</td><td>".$row['close']."</td><td><a href='db_conn/delete_exception.php?id_exception=".$row['id_exception']."'>Usuń</a></td></tr>";
                     }
                 }
@@ -171,6 +172,9 @@
 </html>
 
 <?php 
+        } else {
+            header("Location: index.php");
+        }
     } else {
         header("Location: index.php");
     }
