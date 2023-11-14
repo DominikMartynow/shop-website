@@ -14,4 +14,15 @@
             return $session;
         } 
     }
+
+    function validateData($source_page, array $inputs) {
+        foreach($inputs as $key => $value) {
+            if(isset($key)) {
+                
+            } else {
+                Header("Location: ".$source_page);
+            }
+        }
+
+    }
 ?>
