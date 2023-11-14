@@ -30,7 +30,7 @@
                         <li class=wrapper-account-menu-item>Twoje konto</li>
                         <li class=wrapper-account-menu-item>Rezerwacje</li>
                         <li class=wrapper-account-menu-item>Ustawienia</li>
-                        <a href="db_conn/logout.php?destination=../product.php?product=<?php echo $_GET['product'] ?>"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['login']?></li></a>    
+                        <a href="db_conn/logout.php?destination=../product.php?product=<?php echo $_GET['product'] ?>"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
                         <?php 
                             } else {
                         ?>        
@@ -42,7 +42,7 @@
                         </form>
 
                         <div class=center id=wrapper-register>
-                            <a href="login-site.php">Zarejestruj się</a>
+                            <a href="login-site.php?mode=register">Zarejestruj się</a>
                         </div>
 
                         <?php 

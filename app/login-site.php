@@ -63,6 +63,17 @@
         </div>
     </main>
 
+    <?php
+        if(isset($_GET['mode'])) {
+            echo '
+            <script>
+                document.getElementById("register-box").style.display = "block";
+                document.getElementById("login-box").style.display = "none";
+            </script>
+            ';
+        }
+    ?>
+
     <script>
         function display(element_to_display, current_element) {
             element_to_display = document.getElementById(element_to_display).style.display = "block";

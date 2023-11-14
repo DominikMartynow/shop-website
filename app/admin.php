@@ -15,7 +15,7 @@
 </head>
 <body>
     <header>
-        <a>Zalogowano użytkownika <?php echo $_SESSION['login']; ?></a>
+        <a>Zalogowano użytkownika <?php echo $_SESSION['firstname']; ?></a>
 
         <?php 
             $date = date('Y-m-d');
