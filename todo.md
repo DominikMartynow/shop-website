@@ -22,3 +22,5 @@ Uzytkownicy
 Strona logowania oraz rejestracji nowych uzytkownikow
 Przypomnienie hasła
 Rejestracja nowych użytkowników
+Potwierdzenie zaloeznia kotna na mailu
+Przy rejestracji sprawdzanie czy nie uzywamy maila oraz numeru z bazy danych

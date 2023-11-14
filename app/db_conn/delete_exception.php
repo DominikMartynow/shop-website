@@ -1,7 +1,7 @@
 <?php 
     session_start();
 
-    if(isset($_SESSION['login']) && isset($_SESSION['password'])){
+    if(isset($_SESSION['id']) && isset($_SESSION['password'])){
         if($_SESSION["admin"] == 1) {
             include 'connect.php';
             $conn = OpenConn();

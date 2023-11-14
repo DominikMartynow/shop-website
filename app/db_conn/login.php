@@ -30,7 +30,7 @@
 
             if($row['mail'] === $mail && $row['password'] === $password) {
                 $_SESSION['id'] = $row['id_user'];
-                $_SESSION['login'] = $row['login'];
+                $_SESSION['firstname'] = $row['firstname'];
                 $_SESSION['password'] = $row['password'];
                 $_SESSION['mail'] = $row['mail'];
 
@@ -39,6 +39,8 @@
                 if($row["admin"] == 1) {
                     $_SESSION["admin"] = 1;
                     header("Location: ../admin.php");
+                } else if(isset($_GET["destination"])){
+                    header("Location: ".$_GET["destination"]."");
                 } else {
                     header("Location: ../shop.php");
                 }

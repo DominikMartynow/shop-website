@@ -1,1 +1,1 @@
-<a href="product.php?product_id=27">zobacz</a>
+<a href="product.php?product=27">zobacz</a>

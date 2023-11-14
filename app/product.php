@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="style/mstyle.css">
 </head>
 
-
-
 <body>
     <header class=flex-box>
         <a href="index.php" id="logo">Sklep Wielobranżowy</a>
@@ -24,10 +22,38 @@
                 <li class="menu-item" id=unwrap-account-menu>
                     <a href="account.php">Konto</a>
                     <ul id=wrapper-account-menu>
+                        <?php 
+                            include "functions/functions.php";
+
+                            if(is_logged()) {
+                        ?>
                         <li class=wrapper-account-menu-item>Twoje konto</li>
                         <li class=wrapper-account-menu-item>Rezerwacje</li>
                         <li class=wrapper-account-menu-item>Ustawienia</li>
-                        <a href="db_conn/logout.php"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się</li></a>
+                        <a href="db_conn/logout.php?destination=../product.php?product=<?php echo $_GET['product'] ?>"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['login']?></li></a>    
+                        <?php 
+                            } else {
+                        ?>        
+                        
+                        <form id='login-form-wrapper' id=inside action="db_conn/login.php?destination=../product.php?product=<?php echo $_GET['product'] ?>" method="POST">
+                            <input type="text" name="mail" id="mail" placeholder="Adres e-mail">
+                            <input type="password" name="password" id="password" placeholder="Hasło">
+                            <input id=submit-login type="submit" value="Zaloguj">
+                        </form>
+
+                        <div class=center id=wrapper-register>
+                            <a href="login-site.php">Zarejestruj się</a>
+                        </div>
+
+                        <?php 
+                            if(isset($_GET['error'])) {
+                                echo "<a id=login-site-error>".$_GET['error']."</a>";
+                            }
+                        ?>
+
+                        <?php
+                            }
+                        ?>
                     </ul>
                 </li>
             </ul>
@@ -35,14 +61,14 @@
     </header>
 
     <?php 
-        if(isset($_GET['product_id'])) {
-            $product_id = $_GET['product_id'];
+        if(isset($_GET['product']) && !empty($_GET['product'])) {
+            $product = $_GET['product'];
 
             include "db_conn/connect.php";
 
             $conn = OpenConn();
         
-            $sql = "SELECT * FROM products INNER JOIN product_category ON products.id_product_category = product_category.id_product_category WHERE products.id_products='".$product_id."';";
+            $sql = "SELECT * FROM products INNER JOIN product_category ON products.id_product_category = product_category.id_product_category WHERE products.id_products='".$product."';";
             $result = mysqli_query($conn, $sql);
 
             close($conn);
@@ -71,7 +97,6 @@
                     }
 
                     $product_description = $row['product_description'];
-
     ?>          
 
     <div id="product-main">
@@ -80,6 +105,7 @@
             <a> > </a>
             <a href="shop.php?category_id=<?php echo $product_category_id?>"><?php echo $product_category?></a>
             <a> > </a>
+            <a href="" class=bold><?php echo $product_name?></a>
         </nav>
 
         <div id="product-basic-info">
