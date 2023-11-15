@@ -34,8 +34,8 @@
             </form>
 
             <?php 
-                if(isset($_GET['error'])) {
-                    echo "<a id=login-site-error>".$_GET['error']."</a>";
+                if(isset($_GET['error_l'])) {
+                    echo "<a id=login-site-error>".$_GET['error_l']."</a>";
                 }
             ?>
 
@@ -56,21 +56,42 @@
                 <input type="submit" id=submit-register value="Zarejestruj się">
             </form>
 
+            <?php 
+                if(isset($_GET['error_r'])) {
+                    echo "<a id=login-site-error>".$_GET['error_r']."</a>";
+                }
+            ?>
+
             <div id=register-options>
-                <a href="forgot_password.php">Zapomniałem hasła</a>
                 <a class=pointer onclick="display('login-box', 'register-box')">Zaloguj się</a>
             </div>
+        </div>
+
+        <div id="confirm-registration-box">
+            <a>Potwierdź założenie swojego konta, klikając w link przysłany na podany adres e-mail.</a>
         </div>
     </main>
 
     <?php
         if(isset($_GET['mode'])) {
-            echo '
-            <script>
-                document.getElementById("register-box").style.display = "block";
-                document.getElementById("login-box").style.display = "none";
-            </script>
-            ';
+            if($_GET['mode'] == "register") {
+                echo '
+                <script>
+                    document.getElementById("register-box").style.display = "block";
+                    document.getElementById("confirm-registration-box").style.display = "none";
+                    document.getElementById("login-box").style.display = "none";
+                </script>
+                ';
+            } else if($_GET['mode'] == "confirm_registration") {
+                echo '
+                <script>
+                    document.getElementById("register-box").style.display = "none";
+                    document.getElementById("login-box").style.display = "none";
+                    document.getElementById("confirm-registration-box").style.display = "block";
+                </script>
+                ';
+            }
+
         }
     ?>
 

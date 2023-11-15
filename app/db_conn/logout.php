@@ -1,9 +1,6 @@
 <?php 
-    // Initialize the session.
-    // If you are using session_name("something"), don't forget it now!
     session_start();
 
-    // Unset all of the session variables.
     $_SESSION = array();
 
     if (ini_get("session.use_cookies")) {
@@ -14,7 +11,6 @@
         );
     }
 
-    // Finally, destroy the session.
     session_destroy();
 
     if(isset($_GET['destination']) && !empty($_GET['destination'])) {

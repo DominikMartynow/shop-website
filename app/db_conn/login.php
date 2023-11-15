@@ -14,9 +14,9 @@
     $password = validate($_POST['password']);
 
     if(empty($mail)) {
-        header("Location: ../login-site.php?error=Adres email wymagany");
+        header("Location: ../login-site.php?error_l=Adres email wymagany");
     } else if (empty($password)) {
-        header("Location: ../login-site.php?error=Hasło wymagane");
+        header("Location: ../login-site.php?error_l=Hasło wymagane");
     } else {
         $conn = OpenConn();
 
@@ -45,10 +45,10 @@
                     header("Location: ../shop.php");
                 }
             } else {
-                header("Location: ../login-site.php?error=Błędny login i/lub hasło");
+                header("Location: ../login-site.php?error_l=Błędny login i/lub hasło");
             }
         } else {
-            header("Location: ../login-site.php?error=Użytkownik nie istnieje");
+            header("Location: ../login-site.php?error_l=Użytkownik nie istnieje");
         }
     }
 ?>

@@ -414,9 +414,14 @@ h2 {
 }
 
 #login-site-error {
-    line-height: 50px;
+    padding: 10px;
     color: red;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     text-align: center;
+    width: 300px;
+    margin-bottom: 10px;
 }
 
 #login-options {
@@ -470,4 +475,16 @@ h2 {
     display: flex;
     justify-content: space-between;
     line-height: 50px;
+}
+
+#confirm-registration-box{
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: max-content;
+    height: max-content;
+    padding: 30px;
+    display: none;
+    text-align: center;
 }
