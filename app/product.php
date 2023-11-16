@@ -126,7 +126,7 @@
             <div id="info-box">
                 <h2 id=product-name><?php echo $product_name;?></h2>
                 <a href="shop.php?producer=<?php echo $producer;?>" id="producer"><?php echo $producer;?><a>
-                <a href="add_to_basket.php" id="add-to-basket">Dodaj do koszyka <img class="add-to-basket-ico" src="ico/icons8-plus-50.png"></a>
+                <a href="db_conn/add_basket.php?product=<?php echo $_GET['product']; ?>" id="add-to-basket">Dodaj do koszyka <img class="add-to-basket-ico" src="ico/icons8-plus-50.png"></a>
     
             </div>
         </div>

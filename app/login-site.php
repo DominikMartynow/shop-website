@@ -23,11 +23,17 @@
     </nav>
 </header>
 
-
 <body>
     <main id="login-site">
         <div id="login-box">
-            <form id=login-form action="db_conn/login.php" method="POST">
+            <?php 
+                if(!empty($_GET['destination'])) {
+                    echo "<form id=login-form action='db_conn/login.php?destination=".$_GET["destination"]."' method='POST'>";
+                } else {
+                    echo "<form id=login-form action='db_conn/login.php' method='POST'>";
+                }
+            ?>
+
                 <input type="text" name="mail" id="mail" placeholder="Adres e-mail">
                 <input type="password" name="password" id="password" placeholder="Hasło">
                 <input id=submit-login type="submit" value="Zaloguj">
