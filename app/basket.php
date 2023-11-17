@@ -23,7 +23,10 @@
                     <a href="account.php">Konto</a>
                     <ul id=wrapper-account-menu>
                         <?php 
+                            session_start();
+                            
                             include "functions/functions.php";
+                            include "db_conn/connect.php";
 
                             if(is_logged()) {
                         ?>
@@ -63,6 +66,53 @@
     <?php 
         if(isset($_SESSION['id']) && isset($_SESSION['password'])){
             // logged
+    ?>
+        <main id="basket">
+            <h1 id="basket-header">Twój koszyk</h1>
+            <ul id=products-basket>
+                <?php 
+                    $conn = OpenConn();
+
+                    $sql = "SELECT * FROM `basket` INNER JOIN `products` ON basket.id_product = products.id_products WHERE basket.id_user = '".$_SESSION['id']."'";
+                    $result = mysqli_query($conn, $sql);
+
+                    if(mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+
+                        $product_photos = $row['product_photos'];
+
+                        $product_photos = explode(", ", $product_photos);
+    
+                        foreach($product_photos as $key => $fullname) {
+                            $photo_name = explode("/", $fullname);
+                            $photo_name = end($photo_name);
+                            
+                            if(mb_substr($photo_name, 0, 1) == "m") {
+                                $main_photo = $photo_name;
+                            }
+                        }
+
+                        echo "
+                        <li class=product-basket>
+                            <a href=product.php?product=".$row['id_products']."><div class=basket-product-photo style='background-image: url(uploaded_photos/".$main_photo.")'></div></a>
+                            <div class=basket-product-info-box>
+                                <div class=basket-product-info>
+                                    <a href=product.php?product=".$row['id_products']." class=basket-product-name>".$row['product_name']."</a>
+                                    <a href=shop.php?producer=".$row['producer']." class=basket-product-producer>".$row['producer']."</a>
+                                </div>
+                                <a href=db_conn/del_basket.php?destination=../basket.php&product=".$row['id_products']." class=basket-product-delete>Usuń z koszyka</a>
+                            </div>
+                        </li>
+                        ";
+                        }
+                    } else {
+                        echo "koszyk pusty";
+                    }
+
+                ?>
+            </ul>
+        </main>
+    <?php
         } else {
             // not logged
             echo "<p id=error-response-for-client>Zaloguj się by używać koszyka </p><p id=error-back-link><a href='login-site.php'>Zaloguj się</a></p>";

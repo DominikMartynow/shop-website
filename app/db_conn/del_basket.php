@@ -12,23 +12,20 @@
             
             $conn = OpenConn();
 
-            $sql = "SELECT * FROM `basket` WHERE id_product = '".$product."' AND id_user = '".$user."'";
-            $result = mysqli_query($conn, $sql);
-
-            if(mysqli_num_rows($result) === 1) {
-                header("Location: ../product.php?product=".$product);
-            } else {
-                $sql = "INSERT INTO `basket`(`id_basket`,`id_user`,`id_product`,`date_add`) VALUES('','".$user."','".$product."','".$now."')";
-            
-                if (mysqli_query($conn, $sql)) {
-                    header("Location: ../product.php?product=".$product);
+            $sql = "DELETE FROM `basket` WHERE `id_user` = '".$user."' && `id_product` = '".$product."'";
+            if (mysqli_query($conn, $sql)) {
+                if(!empty($_GET['destination'])) {
+                    header("Location: ".$_GET['destination']);
                 } else {
-                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    header("Location: ../shop.php");
                 }
+
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }
 
             close($conn);
-
+            
         } else {
             header("Location: ../shop.php");
         }

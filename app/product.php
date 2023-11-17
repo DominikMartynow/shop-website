@@ -23,6 +23,8 @@
                     <a href="account.php">Konto</a>
                     <ul id=wrapper-account-menu>
                         <?php 
+                            session_start();
+
                             include "functions/functions.php";
 
                             if(is_logged()) {
@@ -126,8 +128,30 @@
             <div id="info-box">
                 <h2 id=product-name><?php echo $product_name;?></h2>
                 <a href="shop.php?producer=<?php echo $producer;?>" id="producer"><?php echo $producer;?><a>
-                <a href="db_conn/add_basket.php?product=<?php echo $_GET['product']; ?>" id="add-to-basket">Dodaj do koszyka <img class="add-to-basket-ico" src="ico/icons8-plus-50.png"></a>
-    
+                <?php 
+                    if(is_logged()) {
+
+                        $conn = OpenConn();
+
+                        $sql = "SELECT * FROM `basket` WHERE id_product = '".$_GET['product']."' AND id_user = '".$_SESSION['id']."'";
+                        $result = mysqli_query($conn, $sql);
+            
+                        if(mysqli_num_rows($result) === 1) {
+                ?>
+                        <a href="db_conn/del_basket.php?destination=../product.php?product=<?php echo $_GET['product']; ?>&product=<?php echo $_GET['product']?>" id="add-to-basket">Usuń z koszyka <img class="add-to-basket-ico" src="ico/icons8-minus-50.png"></a>
+                <?php
+                        } else {
+                ?>
+                        <a href="db_conn/add_basket.php?product=<?php echo $_GET['product']; ?>" id="add-to-basket">Dodaj do koszyka <img class="add-to-basket-ico" src="ico/icons8-plus-50.png"></a>
+                <?php
+                        }
+                    } else {
+                ?>      
+                        <a href="db_conn/add_basket.php?product=<?php echo $_GET['product']; ?>" id="add-to-basket">Dodaj do koszyka <img class="add-to-basket-ico" src="ico/icons8-plus-50.png"></a>
+                <?php
+                    }
+
+                ?>
             </div>
         </div>
 

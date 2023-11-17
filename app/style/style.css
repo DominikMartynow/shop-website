@@ -195,6 +195,7 @@ footer {
 
 #site-path {
     height: 30px;
+    width: 100%;
 }
 
 #error-response-for-client {
@@ -415,7 +416,7 @@ h2 {
 
 #login-site-error {
     padding: 10px;
-    color: red;
+    color: rgb(201, 0, 0);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -487,4 +488,63 @@ h2 {
     padding: 30px;
     display: none;
     text-align: center;
+}
+
+#basket {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-basket {
+    width: 100%;
+    height: 200px;
+    border: 1px solid rgb(235, 235, 235);
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.basket-product-photo {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+}
+
+.basket-product-info-box {
+    padding: 25px;
+    box-sizing: border-box;
+    width: max-content;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.basket-product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.basket-product-name {
+    font-size: 25px;
+}
+
+.basket-product-producer {
+    line-height: 30px;
+    font-weight: bolder;
+    color:rgb(192, 192, 192);
+    letter-spacing: 2px;
+}
+
+.basket-product-delete {
+    color: rgb(201, 0, 0);
 }
