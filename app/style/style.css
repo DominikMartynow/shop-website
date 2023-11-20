@@ -75,10 +75,29 @@ nav {
     padding: 5px;
     color: black;
     text-align: center;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-item:hover {
     background: rgb(207, 207, 207);
+}
+
+#count-basket{
+    background: rgb(207, 207, 207);
+    font-weight: bolder;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    line-height: 30px;
+    margin-left: 10px;
+}
+
+.menu-item:hover > #count-basket {
+    background: rgb(184, 184, 184);
 }
 
 #index {
@@ -547,4 +566,35 @@ h2 {
 
 .basket-product-delete {
     color: rgb(201, 0, 0);
+}
+
+#summary-basket {
+    border-top: 1px solid rgb(235, 235, 235);
+    background: rgb(235, 235, 235);
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.summary-basket-category {
+    line-height: 20px;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-basket-category-name {
+    display: flex;
+    flex-direction: row;
+}
+
+#arrow-down {
+    margin-left: 10px;
+    width: 15px;
+}
+
+#summary-basket-products-list {
+    padding: 10px;
 }

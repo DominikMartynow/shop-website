@@ -18,16 +18,25 @@
         <nav>
             <ul id=menu>
                 <li class="menu-item"><a href="shop.php">Sklep</a></li>
-                <li class="menu-item"><a href="basket.php">Koszyk</a></li>
+                <li class="menu-item">
+                    <a href="basket.php">Koszyk</a>
+                        <?php 
+                            session_start();
+
+                            include "db_conn/connect.php";
+                            include "functions/functions.php";
+
+                            if(is_logged()) {
+                                echo "<a id=count-basket>".countBasket($_SESSION['id'])."</a>";
+                            } else {
+
+                            }
+                        ?>
+                </li>
                 <li class="menu-item" id=unwrap-account-menu>
                     <a href="account.php">Konto</a>
                     <ul id=wrapper-account-menu>
-                        <?php 
-                            session_start();
-                            
-                            include "functions/functions.php";
-                            include "db_conn/connect.php";
-
+                        <?php   
                             if(is_logged()) {
                         ?>
                         <li class=wrapper-account-menu-item>Twoje konto</li>
@@ -76,6 +85,8 @@
                     $sql = "SELECT * FROM `basket` INNER JOIN `products` ON basket.id_product = products.id_products WHERE basket.id_user = '".$_SESSION['id']."'";
                     $result = mysqli_query($conn, $sql);
 
+                    close($conn);
+
                     if(mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
 
@@ -105,6 +116,32 @@
                         </li>
                         ";
                         }
+
+                        ?>
+                        
+                        <div id=summary-basket>
+                            <ul>
+                                <li class=summary-basket-category id=products>
+                                    <a class=summary-basket-category-name>Produkty (<?php echo mysqli_num_rows($result); ?>)<img id=arrow-down src=ico/icons8-down-arrow-32.png></a>
+                                    <ul id=summary-basket-products-list>
+                                        <?php
+                                            $conn = OpenConn();
+                                            $sql = "SELECT * FROM `basket` INNER JOIN `products` ON basket.id_product = products.id_products WHERE basket.id_user = '".$_SESSION['id']."'";
+                                            $result = mysqli_query($conn, $sql);
+
+                                            if(mysqli_num_rows($result) > 0) {
+                                                while($row = mysqli_fetch_assoc($result)) {
+                                                    echo "</li>".$row['product_name']."</li>";
+                                                }
+                                            }
+
+                                            close($conn);
+                                        ?>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    <?php 
                     } else {
                         echo "koszyk pusty";
                     }

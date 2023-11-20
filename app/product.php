@@ -18,15 +18,25 @@
         <nav>
             <ul id=menu>
                 <li class="menu-item"><a href="shop.php">Sklep</a></li>
-                <li class="menu-item"><a href="basket.php">Koszyk</a></li>
+                <li class="menu-item">
+                    <a href="basket.php">Koszyk</a>
+                        <?php 
+                            session_start();
+
+                            include "db_conn/connect.php";
+                            include "functions/functions.php";
+
+                            if(is_logged()) {
+                                echo "<a id=count-basket>".countBasket($_SESSION['id'])."</a>";
+                            } else {
+
+                            }
+                        ?>
+                </li>
                 <li class="menu-item" id=unwrap-account-menu>
                     <a href="account.php">Konto</a>
                     <ul id=wrapper-account-menu>
                         <?php 
-                            session_start();
-
-                            include "functions/functions.php";
-
                             if(is_logged()) {
                         ?>
                         <li class=wrapper-account-menu-item>Twoje konto</li>
@@ -65,8 +75,6 @@
     <?php 
         if(isset($_GET['product']) && !empty($_GET['product'])) {
             $product = $_GET['product'];
-
-            include "db_conn/connect.php";
 
             $conn = OpenConn();
         

@@ -11,7 +11,6 @@ Jesli user niezalogowany, komunikat o zalogowaniu sie zanim dodawanie produktu
 Koszyk
 Zlozenie rezerwacji
 Otrzymanie kodu rezerwacji, wyslanie go na maila
-Przy napisie koszykj wyswitla sie liczba produktow zawartych w nim
 
 ADMIN
 Widok rezerwacji imie, nazwisko klienta, co zamowil, kiedy odbior

@@ -22,4 +22,20 @@
         }
 
     }
+
+    function countBasket($user) {
+        $conn = OpenConn();
+
+        $sql = "SELECT * FROM `basket` WHERE id_user = '".$user."'";
+        $result = mysqli_query($conn, $sql);
+
+        if(mysqli_num_rows($result) > 0) {
+        } else {
+            echo mysqli_error($conn);
+        }
+
+        close($conn);
+
+        return mysqli_num_rows($result);
+    }
 ?>

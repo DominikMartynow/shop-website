@@ -16,6 +16,6 @@
     if(isset($_GET['destination']) && !empty($_GET['destination'])) {
         header("Location: ".$_GET['destination']."");
     } else {
-        header("Location: login.php");
+        header("Location: ../login-site.php");
     }
 ?>
