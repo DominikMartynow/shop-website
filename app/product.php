@@ -27,9 +27,9 @@
                             include "functions/functions.php";
 
                             if(is_logged()) {
-                                echo "<a id=count-basket>".countBasket($_SESSION['id'])."</a>";
-                            } else {
-
+                                if(countBasket($_SESSION['id']) > 0) {
+                                    echo "<a id=count-basket>".countBasket($_SESSION['id'])."</a>";
+                                }
                             }
                         ?>
                 </li>
