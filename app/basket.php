@@ -42,7 +42,7 @@
                             if(is_logged()) {
                         ?>
                         <li class=wrapper-account-menu-item>Twoje konto</li>
-                        <li class=wrapper-account-menu-item>Rezerwacje</li>
+                        <a href="reservations.php"><li class=wrapper-account-menu-item>Rezerwacje</li></a>
                         <li class=wrapper-account-menu-item>Ustawienia</li>
                         <a href="db_conn/logout.php?destination=../basket.php"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
                         <?php 
@@ -119,12 +119,13 @@
                         ";
                         }
 
-                        ?>
+                ?>
+            </ul>
                         
                         <div id=summary-basket>
                             <ul>
                                 <li class=summary-basket-category id=products>
-                                    <a class=summary-basket-category-name>Produkty (<?php echo mysqli_num_rows($result); ?>)<img id=arrow-down src=ico/icons8-down-arrow-32.png></a>
+                                    <a class=summary-basket-category-name>Produkty (<?php echo mysqli_num_rows($result); ?>)</a>
                                     <ul id=summary-basket-products-list>
                                         <?php
                                             $conn = OpenConn();
@@ -133,7 +134,7 @@
 
                                             if(mysqli_num_rows($result) > 0) {
                                                 while($row = mysqli_fetch_assoc($result)) {
-                                                    echo "</li>".$row['product_name']."</li>";
+                                                    echo "<li>".$row['product_name']."</li>";
                                                 }
                                             }
 
@@ -141,7 +142,18 @@
                                         ?>
                                     </ul>
                                 </li>
+
+                                <li class=summary-basket-category id=products>
+                                    <a class=summary-basket-category-name>Odbierz do</a>
+                                    <?php 
+                                        echo date("d.m.Y", strtotime("+3 days",time()));
+                                    ?>
+                                </li>
                             </ul>
+
+                            <a id=submit-reservation-button href="db_conn/reservation.php">
+                                Rezerwuj
+                            </a>
                         </div>
                     <?php 
                     } else {
@@ -149,7 +161,6 @@
                     }
 
                 ?>
-            </ul>
         </main>
     <?php
         } else {

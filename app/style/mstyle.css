@@ -99,6 +99,47 @@
     .gallery-photo {
         align-self: start;
     }
+
+    .reservation-data {
+        flex-direction: column;
+    }
+    
+    .reservation-data-box {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .reservation-data-caption {
+        line-height: 40px;
+    }
+
+    .reservation-data-value {
+        line-height: 40px;
+        margin-left: 10px;
+    }
+
+    .reservations-product-photo {
+        display: none;
+    }
+
+    .reservation-products-list {
+        flex-direction: column;
+    }
+
+    .reservations-product {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .reservations-product-data {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        text-align: left;
+    } 
+
+    .reservations-product-producer {
+        min-width: 200px;
+    }    
 }
 
 

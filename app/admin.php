@@ -165,7 +165,6 @@
                 document.cookie = "main_photo ="+choosen_photo.getAttribute("number")
             }
         </script>
-
     </div>
     
 </body>

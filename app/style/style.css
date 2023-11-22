@@ -520,9 +520,14 @@ h2 {
     flex-direction: column;
 }
 
+#products-basket {
+    margin-bottom: 10%;
+}
+
 .product-basket {
     width: 100%;
-    height: 200px;
+    min-height: 200px;
+    height: max-content;
     border: 1px solid rgb(235, 235, 235);
     display: flex;
     flex-direction: row;
@@ -540,7 +545,8 @@ h2 {
     padding: 25px;
     box-sizing: border-box;
     width: max-content;
-    height: 200px;
+    min-height: 200px;
+    height: max-content;
     background-position: center;
     background-size: cover;
     display: flex;
@@ -571,30 +577,126 @@ h2 {
 #summary-basket {
     border-top: 1px solid rgb(235, 235, 235);
     background: rgb(235, 235, 235);
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
 }
 
 .summary-basket-category {
     line-height: 20px;
-    width: max-content;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    margin-bottom: 20px;
 }
 
 .summary-basket-category-name {
     display: flex;
+    min-width: 150px;
     flex-direction: row;
-}
-
-#arrow-down {
-    margin-left: 10px;
-    width: 15px;
+    font-weight: bolder;
+    color: rgb(54, 54, 54);
+    margin-right: 20px;
+    border-right: 1px solid rgb(54, 54, 54);
 }
 
 #summary-basket-products-list {
+    display: flex;
+    flex-direction: column;
+    color: rgb(54, 54, 54);
+}
+
+#summary-basket-products-list > li {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+#summary-basket-products-list > li:last-child {
+    margin-bottom: 0;
+}
+
+#submit-reservation-button {
+    background: rgb(207, 207, 207);
+    padding: 20px;
+    text-align: center;
+    font-weight: bolder;
+    color: rgb(54, 54, 54);
+}
+
+#reservations { 
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    height: auto;
     padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.reservation-box {
+    width: 100%;
+    height: max-content;
+    background: rgb(235, 235, 235);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.pickup_code{
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.reservation-data {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.reservation-data-box {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.reservation-data-caption {
+    font-weight: bold;
+}
+
+.reservation-products-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.reservations-product {
+    width: 200px;
+    height: max-content;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.reservations-product-photo {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+}
+
+.reservations-product-data {
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background: rgb(184, 184, 184);
+}
+
+.reservations-product-producer {
+    font-weight: bold;
 }
