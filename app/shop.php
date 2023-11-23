@@ -73,4 +73,35 @@
             </ul>
         </nav>
     </header>
+
+    <main id="shop">
+        <div id="search-box">
+            <form id=search-form action="shop.php" method="get">
+                <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
+                <input type="submit" value="szukaj" id="search-submit">
+            </form>
+            <div id=filter-box>
+                <ul class='filter-list producer-filter-list'>
+                    <form id="producer-filter=form" method='get' action=shop.php>
+                        <?php 
+                        $conn = OpenConn();
+
+                        $sql = "SELECT DISTINCT(producer) FROM products";
+                        $result = mysqli_query($conn, $sql);
+
+                        close($conn);
+
+                        if(mysqli_num_rows($result) > 0) {
+
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo "<li class='product-filter producer'><input class='product-filter checkbox-producer' name='".$row['producer']."' id='".$row['producer']."' type=checkbox>".$row['producer']."</li>";
+                            }
+                        }
+                        ?>
+                        <input type="submit" value="Wyszukaj">
+                    </form>
+                </ul> 
+            </div>
+        </div>
+    </main>
 </body>

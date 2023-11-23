@@ -5,7 +5,7 @@ Strona sklepu główna:
 Komentarze dotyczace produktu, mozliwosc dyskusji
 Otrzymanie kodu rezerwacji, wyslanie go na maila
 
-Widok historii rezerwacji imie, nazwisko klienta, co zamowil, kiedy odbior, status zakonczenia/aktualny
+W rezerwacjach podsumwanie, ile odebranych ile oczekuje itp.
 
 Edycja produktow
 Zatwerdzanie komentarzy

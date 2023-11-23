@@ -44,7 +44,7 @@
                         <li class=wrapper-account-menu-item>Twoje konto</li>
                         <a href="reservations.php"><li class=wrapper-account-menu-item>Rezerwacje</li></a>
                         <li class=wrapper-account-menu-item>Ustawienia</li>
-                        <a href="db_conn/logout.php?destination=../basket.php"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
+                        <a href="db_conn/logout.php?destination=../reservations.php"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
                         <?php 
                             } else {
                         ?>        
@@ -84,10 +84,9 @@
                 <?php 
                     $conn = OpenConn();
 
-                    $sql = "SELECT * FROM `reservations` INNER JOIN reservation_status ON reservations.status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                    $sql = "SELECT * FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;
+                    ";
                     $result = mysqli_query($conn, $sql);
-
-                    print_r($result);
 
                     close($conn);
 
@@ -96,15 +95,13 @@
                     $pickup = array();
                     $status = array();
 
-                    echo "nigger";
-
                     if(mysqli_num_rows($result) > 0) {
 
                         while($row = mysqli_fetch_assoc($result)) {
                             array_push($reservations, $row['pickup_code']);
                             array_push($date, $row['date']);
                             array_push($pickup, $row['pickup']);
-                            array_push($status, $row['reservation_status.status']);
+                            array_push($status, $row['status']);
                         }
 
                         foreach($reservations as $key => $reservation) {
@@ -155,7 +152,7 @@
 
                                     echo "
                                     <li class=reservations-product>
-                                        <div class=reservations-product-photo style='background-image: url(uploaded_photos/".$main_photo.")'></div>
+                                        <div class='reservations-product-photo bg-placeholder' style='background-image: url(uploaded_photos/".$main_photo.")'></div>
                                         <div class=reservations-product-data>
                                             <a class=reservations-product-name>".$row['product_name']."</a>
                                             <a class=reservations-product-producer>".$row['producer']."</a>
