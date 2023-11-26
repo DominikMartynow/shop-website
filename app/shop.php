@@ -75,33 +75,62 @@
     </header>
 
     <main id="shop">
+        <nav id="site-path">
+            <a href="shop.php">sklep</a>
+            <a> > </a>
+            <?php
+                if(isset($_GET['category'])) {
+                    $conn = OpenConn();
+
+                    $sql = "SELECT * FROM product_category WHERE id_product_category = ".$_GET['category']."";
+                    $result = mysqli_query($conn, $sql);
+
+                    close($conn);
+
+                    if(mysqli_num_rows($result) === 1) {
+                        $row = mysqli_fetch_assoc($result);
+                        $product_category = $row['product_category_name'];                        
+                    }
+
+                    echo "<a href=shop.php?category_id=".$_GET['category']." class=bold>".$product_category."</a>";
+                    echo "<a> > </a>";
+                }
+            ?>
+        </nav>
+
         <div id="search-box">
-            <form id=search-form action="shop.php" method="get">
-                <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
-                <input type="submit" value="szukaj" id="search-submit">
-            </form>
-            <div id=filter-box>
-                <ul class='filter-list producer-filter-list'>
-                    <form id="producer-filter=form" method='get' action=shop.php>
-                        <?php 
-                        $conn = OpenConn();
+            <ul id=categories-list>
+                <?php 
+                    $conn = OpenConn();
 
-                        $sql = "SELECT DISTINCT(producer) FROM products";
-                        $result = mysqli_query($conn, $sql);
+                    $sql = "SELECT * FROM product_category";
+                    $result = mysqli_query($conn, $sql);
 
-                        close($conn);
+                    close($conn);
 
-                        if(mysqli_num_rows($result) > 0) {
-
-                            while($row = mysqli_fetch_assoc($result)) {
-                                echo "<li class='product-filter producer'><input class='product-filter checkbox-producer' name='".$row['producer']."' id='".$row['producer']."' type=checkbox>".$row['producer']."</li>";
-                            }
+                    if(mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                            echo "<a href='shop.php?category=".$row['id_product_category']."'><li class=product-list-option>".$row['product_category_name']."</li></a>";
                         }
-                        ?>
-                        <input type="submit" value="Wyszukaj">
-                    </form>
-                </ul> 
-            </div>
+                    }
+                            
+                ?>
+            </ul>
+
+            <form id=search-form action="shop.php" method="get">
+                <div id=cateogries-wrapper onclick="openCategories()">Kategorie</div>
+                <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
+                <input type="submit" value="Szukaj" id="search-submit">
+            </form>
         </div>
+
+        <?php
+            //category unset
+            if(!isset($_GET['category'])) {
+                $conn = OpenConn();
+
+                $sql = "SELECT * FROM products LIMIT"
+            }
+        ?>
     </main>
 </body>

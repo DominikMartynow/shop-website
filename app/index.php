@@ -89,11 +89,11 @@
     <div id="assortment">
         <h1>Asortyment</h1>
         <ul id=assortment-menu class=flex-box>
-            <a id=haberdashery class=assortment-item href="shop.php?category=haberdashery"><li class=assortment-item-name>Pasmanteria</li></a>
-            <a id=clothes class=assortment-item href="shop.php?category=clothes"><li class=assortment-item-name>Odzież</li></a>
-            <a id=shoes class=assortment-item href="shop.php?category=shoes" class=assortment-item-name>Obuwie</li></a>
-            <a id=gallantry class=assortment-item href="shop.php?category=gallantry"><li class=assortment-item-name>Akcesoria</li></a>
-            <a id=other class=assortment-item href="shop.php?category=other"><li class=assortment-item-name>Inne</li></a>
+            <a id=haberdashery class=assortment-item href="shop.php?category=1"><li class=assortment-item-name>Pasmanteria</li></a>
+            <a id=clothes class=assortment-item href="shop.php?category=2"><li class=assortment-item-name>Odzież</li></a>
+            <a id=shoes class=assortment-item href="shop.php?category=3" class=assortment-item-name>Obuwie</li></a>
+            <a id=gallantry class=assortment-item href="shop.php?category=4"><li class=assortment-item-name>Akcesoria</li></a>
+            <a id=other class=assortment-item href="shop.php?category=5"><li class=assortment-item-name>Inne</li></a>
         </ul>
     </div>
 

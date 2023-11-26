@@ -704,3 +704,51 @@ h2 {
 .bg-placeholder {
     background-color: gray;
 }
+
+#shop {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#search-form {
+    display: flex;
+    justify-content: center;
+}
+
+#search {
+    width: 80%;
+    max-width: 500px;
+    padding: 15px;
+    font-size: 15px;
+}
+
+#search-submit {
+    width: 20%;
+    max-width: 150px;
+    border: 0px;
+    background: rgb(201, 201, 201);
+    font-size: 17px;
+}
+
+#search-submit:hover {
+    cursor: pointer;
+}
+
+#categories-list {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-list-option {
+    line-height: 100px;
+    text-align: center;
+    background: rgb(184, 184, 184);
+}
