@@ -98,39 +98,98 @@
             ?>
         </nav>
 
-        <div id="search-box">
-            <ul id=categories-list>
-                <?php 
-                    $conn = OpenConn();
+        <div id=shop-main-conent>
+            <div id="left-bar">
+                <a href="shop.php" class=bold>Kategorie:</a>
+                <ul id=categories-list>
+                    <?php 
+                        $conn = OpenConn();
 
-                    $sql = "SELECT * FROM product_category";
-                    $result = mysqli_query($conn, $sql);
+                        $sql = "SELECT * FROM product_category";
+                        $result = mysqli_query($conn, $sql);
 
-                    close($conn);
+                        close($conn);
 
-                    if(mysqli_num_rows($result) > 0) {
-                        while($row = mysqli_fetch_assoc($result)) {
-                            echo "<a href='shop.php?category=".$row['id_product_category']."'><li class=product-list-option>".$row['product_category_name']."</li></a>";
+                        if(mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                if(isset($_GET['category'])) {
+                                    if($_GET['category'] == $row['id_product_category']) {
+                                        echo "<a href='shop.php?category=".$row['id_product_category']."'><li class='product-list-option underline'>".$row['product_category_name']."</li></a>";
+                                    } else {
+                                        echo "<a href='shop.php?category=".$row['id_product_category']."'><li class=product-list-option>".$row['product_category_name']."</li></a>";
+                                    }
+                                } else {
+                                    echo "<a href='shop.php?category=".$row['id_product_category']."'><li class=product-list-option>".$row['product_category_name']."</li></a>";
+                                }
+                            }
                         }
-                    }
-                            
-                ?>
-            </ul>
+                                
+                    ?>
+                </ul>
+            </div>
 
-            <form id=search-form action="shop.php" method="get">
-                <div id=cateogries-wrapper onclick="openCategories()">Kategorie</div>
-                <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
-                <input type="submit" value="Szukaj" id="search-submit">
-            </form>
+            <div id="right-bar">
+                <div id="search-box">
+                    <form id=search-form action="shop.php" method="get">
+                        <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
+                        <input type="submit" value="Szukaj" id="search-submit" class=pointer>
+                    </form>
+                </div>
+
+                <div id=shop-products-list>
+                    <?php 
+                        if(isset($_GET['limit'])) {
+                            $limit = $_GET['limit'];
+                        } else {
+                            $limit = 10;
+                        }
+
+                        if(isset($_GET['category'])) {
+                            $category = $_GET['category'];
+
+                            $conn = OpenConn();
+                            $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'";
+                            $result = mysqli_query($conn, $sql);
+
+                            close($conn);
+
+                            if(mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    $product_photos = $row['product_photos'];
+                                    $product_photos = explode(", ", $product_photos);
+
+                                    if(count($product_photos) > 0) {
+                                        foreach($product_photos as $key => $fullname) {
+                                            $photo_name = explode("/", $fullname);
+                                            $photo_name = end($photo_name);
+                                            
+                                            if(mb_substr($photo_name, 0, 1) == "m") {
+                                                $main_photo_key = $key;
+                                                $main_photo = $photo_name;
+                                                $photos[$key] = $photo_name;
+                                            } else {
+                                                $photos[$key] = $photo_name;
+                                            }
+                                        }
+                                    } else {
+                                        $main_photo = "placeholder.png";
+                                    }
+
+                                    echo "
+                                        <div class=shop-product>
+                                            <div class=shop-product-main-photo style='background-image: url(uploaded_photos/".$main_photo.")'>
+                                            </div>
+                                        </div>
+                                    ";
+                                }
+                            } else {
+                                echo "<p id=error-response-for-client>W wybranej kategorii nie ma żadnych produktów </p><p id=error-back-link><a href='shop.php'>Pełna oferta</a></p>";
+                            }
+                    
+                        }
+                    ?>
+                </div>
+            </div>
         </div>
-
-        <?php
-            //category unset
-            if(!isset($_GET['category'])) {
-                $conn = OpenConn();
-
-                $sql = "SELECT * FROM products LIMIT"
-            }
-        ?>
     </main>
 </body>

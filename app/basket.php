@@ -157,7 +157,7 @@
                         </div>
                     <?php 
                     } else {
-                        echo "koszyk pusty";
+                        echo "<p id=error-response-for-client>Nie dodałeś jeszcze żadnych produktów do koszyka </p><p id=error-back-link><a href='shop.php'>Oferta</a></p>";
                     }
 
                 ?>
