@@ -49,7 +49,7 @@
                             } else {
                         ?>        
                         
-                        <form id='login-form-wrapper' id=inside action="db_conn/login.php?destination=../basket.php" method="post">
+                        <form id='login-form-wrapper' id=inside action="db_conn/login.php?destination=../shop.php" method="post">
                             <input type="text" name="mail" id="mail" placeholder="Adres e-mail">
                             <input type="password" name="password" id="password" placeholder="Hasło">
                             <input id=submit-login type="submit" value="Zaloguj">
@@ -162,13 +162,15 @@
                                         foreach($product_photos as $key => $fullname) {
                                             $photo_name = explode("/", $fullname);
                                             $photo_name = end($photo_name);
-                                            
+
                                             if(mb_substr($photo_name, 0, 1) == "m") {
                                                 $main_photo_key = $key;
                                                 $main_photo = $photo_name;
                                                 $photos[$key] = $photo_name;
+                                                echo "<img src='uploaded_photos/".$main_photo."'>";
                                             } else {
                                                 $photos[$key] = $photo_name;
+                                                $main_photo = "placeholder.png";
                                             }
                                         }
                                     } else {
@@ -177,7 +179,9 @@
 
                                     echo "
                                         <div class=shop-product>
-                                            <div class=shop-product-main-photo style='background-image: url(uploaded_photos/".$main_photo.")'>
+                                            <div class='shop-product-main-photo bg-placeholder' style='background-image: url(uploaded_photos/".$main_photo.")'></div>
+                                            <div class=shop-prouct-info>
+                                                <a class=shop-product-name>".$row['product_name']."</a>
                                             </div>
                                         </div>
                                     ";

@@ -133,8 +133,8 @@
                             close($conn);
                             
                             if(mysqli_num_rows($result) > 0) {
-                                echo "<ul class=reservation-products-list>";    
-
+                                echo "<ul class=reservation-products-list>";
+                                
                                 while($row = mysqli_fetch_assoc($result)) {
                                     $product_photos = $row['product_photos'];
         
