@@ -23,7 +23,7 @@
             }
 
             foreach($products as $key => $product) {
-                $sql = "INSERT INTO `reservations`(`id_reservations`,`id_user`,`id_products`,`date`,`pickup`, `pickup_code`) VALUES ('', '".$user."', '".$product."', '".$now."', '".$pickup."', '".$pickup_code."')";
+                $sql = "INSERT INTO `reservations`(`id_reservations`,`id_user`,`id_products`,`reservation_date`,`reservation_pickup`, `pickup_code`) VALUES ('', '".$user."', '".$product."', '".$now."', '".$pickup."', '".$pickup_code."')";
                 
                 if(mysqli_query($conn, $sql)) {
                     array_push($insert_log, "SUCCESS inert".$product);

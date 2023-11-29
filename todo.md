@@ -1,3 +1,7 @@
+Do poprawy styl sklepu, wyszukiwanie zeby dzialalo xd
+
+
+
 Strona sklepu główna:
 >wyszukiwanie produktów, sortowanie itp
 >miniaturki wyśweitlające głowne zdjecia, tytuly oraz markę

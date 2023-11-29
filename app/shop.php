@@ -123,6 +123,21 @@
                                 }
                             }
                         }
+
+                        if(isset($_GET['limit'])) {
+                            $limit = $_GET['limit'];
+                        } else {
+                            $limit = 10;
+                        }
+    
+                        if(isset($_GET['category'])) {
+                            $category = $_GET['category'];
+    
+                            $conn = OpenConn();
+                            $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'";
+                            $result = mysqli_query($conn, $sql);
+    
+                            close($conn);
                                 
                     ?>
                 </ul>
@@ -131,68 +146,76 @@
             <div id="right-bar">
                 <div id="search-box">
                     <form id=search-form action="shop.php" method="get">
-                        <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
-                        <input type="submit" value="Szukaj" id="search-submit" class=pointer>
+                        <div id=search-box>
+                            <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
+                            <input type="submit" value="Szukaj" id="search-submit" class=pointer>
+                        </div>
+
+                        <div id="sort-box">
+                            <select name="sort" id="sort">
+                                <option value="" disabled selected>Sortuj według</option>
+                                <option value="name_asc" class=sort-option>Nazwa rosnąco</option>
+                                <option value="name_desc" class=sort-option>Nazwa malejąco</option>
+                                <option value="producer_asc" class=sort-option>Producent rosnąco</option>
+                                <option value="producer_desc" class=sort-option>Producent malejąco</option>
+                            </select>
+
+                            <label for="product-num">Liczba produktów na stronie</label>
+                            <input type="range" name="product-num" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="10">
+                        </div>
                     </form>
+
+
                 </div>
 
-                <div id=shop-products-list>
-                    <?php 
-                        if(isset($_GET['limit'])) {
-                            $limit = $_GET['limit'];
-                        } else {
-                            $limit = 10;
-                        }
 
-                        if(isset($_GET['category'])) {
-                            $category = $_GET['category'];
 
-                            $conn = OpenConn();
-                            $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'";
-                            $result = mysqli_query($conn, $sql);
 
-                            close($conn);
+                <?php 
+                        if(mysqli_num_rows($result) > 0) {
+                ?>
+                    <div id=shop-products-list>
+                
+                <?php
+                            while($row = mysqli_fetch_assoc($result)) {
 
-                            if(mysqli_num_rows($result) > 0) {
-                                while($row = mysqli_fetch_assoc($result)) {
-                                    $product_photos = $row['product_photos'];
-                                    $product_photos = explode(", ", $product_photos);
+                            $product_photos = $row['product_photos'];
 
-                                    if(count($product_photos) > 0) {
-                                        foreach($product_photos as $key => $fullname) {
-                                            $photo_name = explode("/", $fullname);
-                                            $photo_name = end($photo_name);
+                            $product_photos = explode(", ", $product_photos);
+        
+                            foreach($product_photos as $key => $fullname) {
+                                $photo_name = explode("/", $fullname);
+                                $photo_name = end($photo_name);
+                                
+                                if(mb_substr($photo_name, 0, 1) == "m") {
+                                    $main_photo = $photo_name;
+                                } 
+                            }
 
-                                            if(mb_substr($photo_name, 0, 1) == "m") {
-                                                $main_photo_key = $key;
-                                                $main_photo = $photo_name;
-                                                $photos[$key] = $photo_name;
-                                                echo "<img src='uploaded_photos/".$main_photo."'>";
-                                            } else {
-                                                $photos[$key] = $photo_name;
-                                                $main_photo = "placeholder.png";
-                                            }
-                                        }
-                                    } else {
-                                        $main_photo = "placeholder.png";
-                                    }
-
-                                    echo "
+                                echo "
+                                    <a href='product.php?product=".$row['id_products']."'>
                                         <div class=shop-product>
                                             <div class='shop-product-main-photo bg-placeholder' style='background-image: url(uploaded_photos/".$main_photo.")'></div>
                                             <div class=shop-prouct-info>
                                                 <a class=shop-product-name>".$row['product_name']."</a>
+                                                <a class=shop-product-producer>".$row['producer']."</a>
                                             </div>
                                         </div>
-                                    ";
-                                }
-                            } else {
-                                echo "<p id=error-response-for-client>W wybranej kategorii nie ma żadnych produktów </p><p id=error-back-link><a href='shop.php'>Pełna oferta</a></p>";
+                                    </a>
+                                ";
                             }
-                    
+                ?>
+
+                    </div>
+
+                <?php
+                        } else {
+                            echo "<p id=error-response-for-client>W wybranej kategorii nie ma żadnych produktów </p><p id=error-back-link><a href='shop.php'>Pełna oferta</a></p>";
                         }
+                
+                    }
                     ?>
-                </div>
+
             </div>
         </div>
     </main>

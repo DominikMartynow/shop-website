@@ -113,7 +113,7 @@
         <nav id="site-path">
             <a href="shop.php">sklep</a>
             <a> > </a>
-            <a href="shop.php?category_id=<?php echo $product_category_id?>"><?php echo $product_category?></a>
+            <a href="shop.php?category=<?php echo $product_category_id?>"><?php echo $product_category?></a>
             <a> > </a>
             <a href="" class=bold><?php echo $product_name?></a>
         </nav>

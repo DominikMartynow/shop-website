@@ -84,8 +84,7 @@
                 <?php 
                     $conn = OpenConn();
 
-                    $sql = "SELECT * FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;
-                    ";
+                    $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
                     $result = mysqli_query($conn, $sql);
 
                     close($conn);
@@ -99,9 +98,9 @@
 
                         while($row = mysqli_fetch_assoc($result)) {
                             array_push($reservations, $row['pickup_code']);
-                            array_push($date, $row['date']);
-                            array_push($pickup, $row['pickup']);
-                            array_push($status, $row['status']);
+                            array_push($date, $row['reservation_date']);
+                            array_push($pickup, $row['reservation_pickup']);
+                            array_push($status, $row['reservation_status']);
                         }
 
                         foreach($reservations as $key => $reservation) {
