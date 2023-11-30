@@ -135,7 +135,7 @@
             </div>
             <div id="info-box">
                 <h2 id=product-name><?php echo $product_name;?></h2>
-                <a href="shop.php?producer=<?php echo $producer;?>" id="producer"><?php echo $producer;?><a>
+                <a href="shop.php?category=<?php echo $product_category_id ?>&search=<?php echo $producer;?>" id="producer"><?php echo $producer;?><a>
                 <?php 
                     if(is_logged()) {
 

@@ -1,4 +1,6 @@
-Do poprawy styl sklepu, wyszukiwanie zeby dzialalo xd
+Do poprawy styl sklepu
+Sortowanie produktów
+Ilosc produktow na stronie
 
 
 

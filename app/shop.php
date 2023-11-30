@@ -134,42 +134,67 @@
                             $category = $_GET['category'];
     
                             $conn = OpenConn();
-                            $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'";
+                            if(isset($_POST['search'])) {
+                                $search = $_POST['search'];
+                            } else if(isset($_GET['search'])) {
+                                $search = $_GET['search'];
+                            }
+
+                            if(isset($search)) {
+                                $search = explode(" ", $search);
+                                
+                                foreach($search as $key => $value) {
+                                    if($key == 0){
+                                        $search_condition = "producer LIKE '%".$value."%' OR product_name LIKE '%".$value."%' OR product_description LIKE '%".$value."%'";  
+                                    } else  if($key > 0) {
+                                        $search_condition = $search_condition." OR producer LIKE '%".$value."%' OR product_name LIKE '%".$value."%' OR product_description LIKE '%".$value."%'";
+                                    }
+                                }
+
+                                $url = "category=".$category;
+
+                                if(isset($_POST['sort'])) {
+                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.") ORDER BY ".$_POST['sort']."";
+                                } else {
+                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.")";
+                                }
+                            } else { 
+                                $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'"; 
+                            }
+
                             $result = mysqli_query($conn, $sql);
     
                             close($conn);
-                                
+
+                            $url = "category=".$category;
+                            
                     ?>
                 </ul>
             </div>
 
             <div id="right-bar">
                 <div id="search-box">
-                    <form id=search-form action="shop.php" method="get">
+                    <form id=search-form action="shop.php<?php echo "?".$url; ?>" method="post">
                         <div id=search-box>
-                            <input type="search" name="search" id="search" placeholder="Nazwa, producent...">
+                            <input type="search" name="search" id="search" placeholder="Nazwa, producent..." value='<?php if(isset($_POST['search'])) {echo $_POST['search'];}?>'>
                             <input type="submit" value="Szukaj" id="search-submit" class=pointer>
                         </div>
 
                         <div id="sort-box">
                             <select name="sort" id="sort">
-                                <option value="" disabled selected>Sortuj według</option>
-                                <option value="name_asc" class=sort-option>Nazwa rosnąco</option>
-                                <option value="name_desc" class=sort-option>Nazwa malejąco</option>
-                                <option value="producer_asc" class=sort-option>Producent rosnąco</option>
-                                <option value="producer_desc" class=sort-option>Producent malejąco</option>
+                                <option value="product_name ASC" class=sort-option selected>Nazwa rosnąco</option>
+                                <option value="product_name DESC" class=sort-option>Nazwa malejąco</option>
+                                <option value="producer ASC" class=sort-option>Producent rosnąco</option>
+                                <option value="producer DESC" class=sort-option>Producent malejąco</option>
                             </select>
 
                             <label for="product-num">Liczba produktów na stronie</label>
-                            <input type="range" name="product-num" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="10">
+                            <input type="range" name="limit" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="10">
                         </div>
                     </form>
 
 
                 </div>
-
-
-
 
                 <?php 
                         if(mysqli_num_rows($result) > 0) {
@@ -213,6 +238,8 @@
                             echo "<p id=error-response-for-client>W wybranej kategorii nie ma żadnych produktów </p><p id=error-back-link><a href='shop.php'>Pełna oferta</a></p>";
                         }
                 
+                    } else {
+                         
                     }
                     ?>
 

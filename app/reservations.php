@@ -84,7 +84,7 @@
                 <?php 
                     $conn = OpenConn();
 
-                    $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                    $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
                     $result = mysqli_query($conn, $sql);
 
                     close($conn);
