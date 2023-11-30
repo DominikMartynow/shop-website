@@ -792,12 +792,14 @@ h2 {
 
 .shop-product {
     flex-grow: 1;
-    flex-basis: 25%;
-    max-width: calc(25%-1px);
+    flex-basis: 32%;
+    max-width: 32%;
     height: max-content;
     margin-top: 10px;
     border: 1px solid rgb(184, 184, 184);
     flex-shrink: 0;
+    box-sizing: border-box;
+    margin-left: 1%;
 }
 
 .shop-product-main-photo {

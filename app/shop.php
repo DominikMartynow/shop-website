@@ -160,6 +160,12 @@
                                 }
                             } else { 
                                 $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'"; 
+
+                                if(isset($_POST['sort'])) {
+                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.") ORDER BY ".$_POST['sort']."";
+                                } else {
+                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.")";
+                                }
                             }
 
                             $result = mysqli_query($conn, $sql);
@@ -167,6 +173,12 @@
                             close($conn);
 
                             $url = "category=".$category;
+
+                            if(isset($_POST['sort'])) {
+                                $sort_selected = $_POST['sort'];
+                            } else {
+                                $sort_selected = "product_name ASC";
+                            }
                             
                     ?>
                 </ul>
@@ -182,14 +194,27 @@
 
                         <div id="sort-box">
                             <select name="sort" id="sort">
-                                <option value="product_name ASC" class=sort-option selected>Nazwa rosnąco</option>
-                                <option value="product_name DESC" class=sort-option>Nazwa malejąco</option>
-                                <option value="producer ASC" class=sort-option>Producent rosnąco</option>
-                                <option value="producer DESC" class=sort-option>Producent malejąco</option>
+                                <?php 
+                                    $sort_options = array(
+                                        "product_name ASC" => "Nazwa rosnąco",
+                                        "product_name DESC" => "Nazwa malejąco",
+                                        "producer ASC" => "Producent rosnąco",
+                                        "producer DESC" => "Producent malejąco",
+                                    );
+
+                                    foreach($sort_options as $key => $value) {
+                                        if($key == $sort_selected) {
+                                            echo "<option value='".$key."' class=sort-option selected>".$value."</option>";
+                                        } else {
+                                            echo "<option value='".$key."' class=sort-option >".$value."</option>";
+                                        }
+                                    }
+                                ?>
+                            
                             </select>
 
                             <label for="product-num">Liczba produktów na stronie</label>
-                            <input type="range" name="limit" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="10">
+                            <input type="range" name="limit" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="5">
                         </div>
                     </form>
 

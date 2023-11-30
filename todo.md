@@ -1,8 +1,5 @@
 Do poprawy styl sklepu
-Sortowanie produktów
 Ilosc produktow na stronie
-
-
 
 Strona sklepu główna:
 >wyszukiwanie produktów, sortowanie itp
