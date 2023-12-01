@@ -80,9 +80,15 @@
             <a> > </a>
             <?php
                 if(isset($_GET['category'])) {
+                    $category = $_GET['category'];
+                } else {
+                    $category = "%";
+                }
+
+                if(isset($category) && $category != "%") {
                     $conn = OpenConn();
 
-                    $sql = "SELECT * FROM product_category WHERE id_product_category = ".$_GET['category']."";
+                    $sql = "SELECT * FROM product_category WHERE id_product_category = '".$_GET['category']."'";
                     $result = mysqli_query($conn, $sql);
 
                     close($conn);
@@ -129,10 +135,8 @@
                         } else {
                             $limit = 10;
                         }
-    
-                        if(isset($_GET['category'])) {
-                            $category = $_GET['category'];
-    
+
+                        if(isset($category)) {
                             $conn = OpenConn();
                             if(isset($_POST['search'])) {
                                 $search = $_POST['search'];
@@ -154,17 +158,17 @@
                                 $url = "category=".$category;
 
                                 if(isset($_POST['sort'])) {
-                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.") ORDER BY ".$_POST['sort']."";
+                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$_POST['sort']."";
                                 } else {
-                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.")";
+                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.")";
                                 }
                             } else { 
-                                $sql = "SELECT * FROM products WHERE id_product_category = '".$category."'"; 
+                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'"; 
 
                                 if(isset($_POST['sort'])) {
-                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.") ORDER BY ".$_POST['sort']."";
+                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$_POST['sort']."";
                                 } else {
-                                    $sql = "SELECT * FROM products WHERE id_product_category = '".$category."' AND (".$search_condition.")";
+                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'";
                                 }
                             }
 
