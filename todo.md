@@ -1,5 +1,5 @@
 Do poprawy styl sklepu
-Ilosc produktow na stronie
+Automatycnze submitowanie formularza
 
 Strona sklepu główna:
 >wyszukiwanie produktów, sortowanie itp

@@ -130,59 +130,67 @@
                             }
                         }
 
-                        if(isset($_GET['limit'])) {
-                            $limit = $_GET['limit'];
+                        if(isset($_POST['limit']) & !empty($_POST['limit'])) {
+                            $limit = $_POST['limit'];
                         } else {
                             $limit = 10;
                         }
 
-                        if(isset($category)) {
-                            $conn = OpenConn();
-                            if(isset($_POST['search'])) {
-                                $search = $_POST['search'];
-                            } else if(isset($_GET['search'])) {
-                                $search = $_GET['search'];
-                            }
+                        if(isset($_POST['sort'])) {
+                            $sort = $_POST['sort'];
+                        } else {
+                            $sort = "product_name ASC";
+                        }
 
-                            if(isset($search)) {
-                                $search = explode(" ", $search);
-                                
-                                foreach($search as $key => $value) {
-                                    if($key == 0){
-                                        $search_condition = "producer LIKE '%".$value."%' OR product_name LIKE '%".$value."%' OR product_description LIKE '%".$value."%'";  
-                                    } else  if($key > 0) {
-                                        $search_condition = $search_condition." OR producer LIKE '%".$value."%' OR product_name LIKE '%".$value."%' OR product_description LIKE '%".$value."%'";
-                                    }
-                                }
+                        $conn = OpenConn();
+                        if(isset($_POST['search'])) {
+                            $search = $_POST['search'];
+                        } else if(isset($_GET['search'])) {
+                            $search = $_GET['search'];
+                        }
 
-                                $url = "category=".$category;
-
-                                if(isset($_POST['sort'])) {
-                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$_POST['sort']."";
-                                } else {
-                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.")";
-                                }
-                            } else { 
-                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'"; 
-
-                                if(isset($_POST['sort'])) {
-                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$_POST['sort']."";
-                                } else {
-                                    $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'";
+                        if(isset($search)) {
+                            $search = explode(" ", $search);
+                            
+                            foreach($search as $key => $value) {
+                                if($key == 0){
+                                    $search_condition = "producer LIKE '%".$value."%' OR product_name LIKE '%".$value."%' OR product_description LIKE '%".$value."%'";  
+                                } else  if($key > 0) {
+                                    $search_condition = $search_condition." OR producer LIKE '%".$value."%' OR product_name LIKE '%".$value."%' OR product_description LIKE '%".$value."%'";
                                 }
                             }
-
-                            $result = mysqli_query($conn, $sql);
-    
-                            close($conn);
 
                             $url = "category=".$category;
 
                             if(isset($_POST['sort'])) {
-                                $sort_selected = $_POST['sort'];
+                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$sort."";
                             } else {
-                                $sort_selected = "product_name ASC";
+                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$sort."";
+
                             }
+                        } else { 
+                            $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'"; 
+
+                            if(isset($_POST['sort'])) {
+                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$sort."";
+                            } else {
+                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$sort."";
+                            }
+                        }
+
+                        $result = mysqli_query($conn, $sql);
+
+                        $num_of_products = mysqli_num_rows($result);
+
+                        close($conn);
+
+                        $url = "category=".$category;
+
+                        if(isset($_POST['sort'])) {
+                            $sort_selected = $_POST['sort'];
+                        } else {
+                            $sort_selected = "product_name ASC";
+                        }
                             
                     ?>
                 </ul>
@@ -191,8 +199,8 @@
             <div id="right-bar">
                 <div id="search-box">
                     <form id=search-form action="shop.php<?php echo "?".$url; ?>" method="post">
-                        <div id=search-box>
-                            <input type="search" name="search" id="search" placeholder="Nazwa, producent..." value='<?php if(isset($_POST['search'])) {echo $_POST['search'];}?>'>
+                        <div id=search>
+                            <input type="search" name="search" id="search-input" placeholder="Nazwa, producent..." value='<?php if(isset($_POST['search'])) {echo $_POST['search'];}?>'>
                             <input type="submit" value="Szukaj" id="search-submit" class=pointer>
                         </div>
 
@@ -217,12 +225,13 @@
                             
                             </select>
 
-                            <label for="product-num">Liczba produktów na stronie</label>
-                            <input type="range" name="limit" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="5">
+                            <div id="product-num">
+                                <label for="product-num" id="product-num-label">Liczba produktów na stronie: </label>
+                                <input type="range" name="limit" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="1" value="<?php echo $limit;?>">
+                            </div>
                         </div>
                     </form>
-
-
+                    <a id="result-info">Wyniki wyszukiwania: <?php echo $num_of_products;?>, wyświetlasz: <?php echo $limit;?></a>
                 </div>
 
                 <?php 
@@ -231,7 +240,9 @@
                     <div id=shop-products-list>
                 
                 <?php
-                            while($row = mysqli_fetch_assoc($result)) {
+                            for($i = 0; $i < $limit; $i++) {
+                            
+                            $row = mysqli_fetch_assoc($result);
 
                             $product_photos = $row['product_photos'];
 
@@ -258,21 +269,34 @@
                                     </a>
                                 ";
                             }
+
+                    echo "</div>";
+
+                    if($num_of_products > $limit) {
+                        $limit = $limit + 10;
+
+                        if($limit > $num_of_products) {
+                            $limit = $limit - ($limit-$num_of_products);
+                        }
+
+                        echo "<a id='show-more-button' class='center' href='shop.php?".$url."&limit=".$limit."'>Pokaż więcej produktów<img id=arrow-down-icon src='ico/icons8-down-arrow-32.png'></a>";
+                    }
                 ?>
 
-                    </div>
 
                 <?php
                         } else {
                             echo "<p id=error-response-for-client>W wybranej kategorii nie ma żadnych produktów </p><p id=error-back-link><a href='shop.php'>Pełna oferta</a></p>";
                         }
                 
-                    } else {
-                         
-                    }
                     ?>
 
             </div>
         </div>
     </main>
+    
+    <footer>
+        <p>ikony <a href="https://icons8.com/"><b>icons8</b></a> / strona <a href="martynow.pl"><b>Dominik Martynów</b></a></p>
+    </footer>
+
 </body>
