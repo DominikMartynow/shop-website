@@ -16,6 +16,8 @@
                     echo "Error deleting record: " . mysqli_error($conn);
                 }
             }
+
+            close($conn);
         } else {
             header("Location: index.php");
         }

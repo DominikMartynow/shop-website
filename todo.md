@@ -1,5 +1,6 @@
 Do poprawy styl sklepu
 Automatycnze submitowanie formularza
+Pageizacja zeby dzialala
 
 Strona sklepu główna:
 >wyszukiwanie produktów, sortowanie itp

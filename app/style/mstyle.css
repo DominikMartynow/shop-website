@@ -7,6 +7,17 @@
     .shop-product-main-photo {
         height: 400px;
     }
+
+    #left-bar {
+        display: none;
+    }
+
+    #right-bar {
+        width: 100%;
+        height: max-content;
+        padding: 10px;
+    }
+
 }
 
 @media (max-width: 1000px) {
@@ -161,6 +172,13 @@
         height: 500px;
     }
     
+    #search-input {
+        width: 80%;
+    }
+
+    #search-submit {
+        width: 20%;
+    }
 }
 
 

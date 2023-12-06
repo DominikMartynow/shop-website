@@ -129,10 +129,10 @@
                                 }
                             }
                         }
-
-                        if(isset($_POST['limit']) & !empty($_POST['limit'])) {
+                        
+                        if(isset($_POST['limit'])) {
                             $limit = $_POST['limit'];
-                        } else {
+                        }else {
                             $limit = 10;
                         }
 
@@ -257,9 +257,11 @@
                                 } 
                             }
 
+                            $row_num = $i+1;
+
                                 echo "
                                     <a href='product.php?product=".$row['id_products']."'>
-                                        <div class=shop-product>
+                                        <div class=shop-product id='product".$row_num."'>
                                             <div class='shop-product-main-photo bg-placeholder' style='background-image: url(uploaded_photos/".$main_photo.")'></div>
                                             <div class=shop-prouct-info>
                                                 <a class=shop-product-name>".$row['product_name']."</a>
@@ -279,7 +281,7 @@
                             $limit = $limit - ($limit-$num_of_products);
                         }
 
-                        echo "<a id='show-more-button' class='center' href='shop.php?".$url."&limit=".$limit."'>Pokaż więcej produktów<img id=arrow-down-icon src='ico/icons8-down-arrow-32.png'></a>";
+                        echo "<a id='show-more-button' class='center' href='shop.php#product".$limit."?".$url."&limit=".$limit."'>Pokaż więcej produktów<img id=arrow-down-icon src='ico/icons8-down-arrow-32.png'></a>";
                     }
                 ?>
 
