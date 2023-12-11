@@ -18,6 +18,40 @@
         padding: 10px;
     }
 
+    #sort-box {
+        flex-direction: column;
+        position: relative;
+        padding: 20px;
+        box-sizing: border-box;
+        background: rgb(184, 184, 184);
+        width: 100%;
+        display: none;
+    }
+
+    .sort {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #sort-list {
+        height: 50px;
+    }
+
+    #product-num {
+        margin-left: 0;
+        line-height: 50px;
+        justify-content: start;
+        background: white;
+    }
+
+    #product-num-slider {
+        margin-left: 10px;
+        width: 50%;
+    }
+
+    #categories-list-mobile, #close-wrapper-box, #open-wrapper-box  {
+        display: block;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -178,6 +212,10 @@
 
     #search-submit {
         width: 20%;
+    }
+
+    #summary-box {
+        flex-direction: column;
     }
 }
 

@@ -39,17 +39,23 @@
                     <a href="account.php">Konto</a>
                     <ul id=wrapper-account-menu>
                         <?php   
+                            if(isset($_GET['category'])) {
+                                $category = $_GET['category'];
+                            } else {
+                                $category = "%";
+                            }    
+                    
                             if(is_logged()) {
                         ?>
                         <li class=wrapper-account-menu-item>Twoje konto</li>
                         <a href="reservations.php"><li class=wrapper-account-menu-item>Rezerwacje</li></a>
                         <li class=wrapper-account-menu-item>Ustawienia</li>
-                        <a href="db_conn/logout.php?destination=../basket.php"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
+                        <a href="db_conn/logout.php?destination=../shop.php?category=<?php echo $category;?>"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
                         <?php 
                             } else {
                         ?>        
                         
-                        <form id='login-form-wrapper' id=inside action="db_conn/login.php?destination=../shop.php" method="post">
+                        <form id='login-form-wrapper' id=inside action="db_conn/login.php?destination=../shop.php?category=<?php echo $category;?>" method="post">
                             <input type="text" name="mail" id="mail" placeholder="Adres e-mail">
                             <input type="password" name="password" id="password" placeholder="Hasło">
                             <input id=submit-login type="submit" value="Zaloguj">
@@ -79,12 +85,6 @@
             <a href="shop.php">sklep</a>
             <a> > </a>
             <?php
-                if(isset($_GET['category'])) {
-                    $category = $_GET['category'];
-                } else {
-                    $category = "%";
-                }
-
                 if(isset($category) && $category != "%") {
                     $conn = OpenConn();
 
@@ -116,8 +116,11 @@
 
                         close($conn);
 
+                        $categories = array();
+
                         if(mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
+                                $categories[$row['id_product_category']] = $row["product_category_name"];
                                 if(isset($_GET['category'])) {
                                     if($_GET['category'] == $row['id_product_category']) {
                                         echo "<a href='shop.php?category=".$row['id_product_category']."'><li class='product-list-option underline'>".$row['product_category_name']."</li></a>";
@@ -129,7 +132,7 @@
                                 }
                             }
                         }
-                        
+
                         if(isset($_POST['limit'])) {
                             $limit = $_POST['limit'];
                         }else {
@@ -143,6 +146,7 @@
                         }
 
                         $conn = OpenConn();
+
                         if(isset($_POST['search'])) {
                             $search = $_POST['search'];
                         } else if(isset($_GET['search'])) {
@@ -162,35 +166,28 @@
 
                             $url = "category=".$category;
 
-                            if(isset($_POST['sort'])) {
-                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$sort."";
-                            } else {
-                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$sort."";
+                            $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.")";
+                            $result = mysqli_query($conn, $sql);
+                            $num_of_products = mysqli_num_rows($result);
 
-                            }
+                            $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' AND (".$search_condition.") ORDER BY ".$sort." LIMIT ".$limit."";
                         } else { 
-                            $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'"; 
+                            $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."'";
+                            $result = mysqli_query($conn, $sql);
+                            $num_of_products = mysqli_num_rows($result);
 
-                            if(isset($_POST['sort'])) {
-                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$sort."";
-                            } else {
-                                $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$sort."";
-                            }
+                            $sql = "SELECT * FROM products WHERE id_product_category LIKE '".$category."' ORDER BY ".$sort." LIMIT ".$limit."";
+                        }
+
+                        if($limit>$num_of_products) {
+                            $limit = $num_of_products;
                         }
 
                         $result = mysqli_query($conn, $sql);
 
-                        $num_of_products = mysqli_num_rows($result);
-
                         close($conn);
 
                         $url = "category=".$category;
-
-                        if(isset($_POST['sort'])) {
-                            $sort_selected = $_POST['sort'];
-                        } else {
-                            $sort_selected = "product_name ASC";
-                        }
                             
                     ?>
                 </ul>
@@ -198,14 +195,52 @@
 
             <div id="right-bar">
                 <div id="search-box">
-                    <form id=search-form action="shop.php<?php echo "?".$url; ?>" method="post">
+                    <form id=search-form action="shop.php<?php echo "?".$url ?>" method="post">
                         <div id=search>
                             <input type="search" name="search" id="search-input" placeholder="Nazwa, producent..." value='<?php if(isset($_POST['search'])) {echo $_POST['search'];}?>'>
                             <input type="submit" value="Szukaj" id="search-submit" class=pointer>
                         </div>
 
+                        <div id="open-wrapper-box">
+                            <a onclick="openWrapper()" class="pointer open-wrapper-button">Filtry</a>
+                        </div>
+
                         <div id="sort-box">
-                            <select name="sort" id="sort">
+                            <div id="close-wrapper-box">
+                                <a class="close-wrapper-button pointer" onclick="closeWrapper()">Zakmnij</a>
+                            </div>
+
+                            <script>
+                                function closeWrapper() {
+                                    $to_close = document.getElementById("sort-box");
+                                    $to_close.style.display = "none";
+
+                                    $to_open = document.getElementById("open-wrapper-box");
+                                    $to_open.style.display = "block";
+                                }
+
+                                function openWrapper() {
+                                    $to_open = document.getElementById("sort-box");
+                                    $to_open.style.display = "block";
+
+                                    $to_close = document.getElementById("open-wrapper-box");
+                                    $to_close.style.display = "none";
+                                }
+                            </script>
+
+                            <ul id=categories-list-mobile>
+                                <a href="shop.php" class=bold>Kategorie:</a>
+                                <?php 
+                                    foreach($categories as $key => $value) {
+                                        if($key == $category) {
+                                            echo "<a href='shop.php?category=".$key."' class=underline><li>".$value."</li></a>";
+                                        } else {
+                                            echo "<a href='shop.php?category=".$key."'><li>".$value."</li></a>";
+                                        }
+                                    }
+                                ?>
+                            </ul>
+                            <select name="sort" id="sort-list" class='sort' onchange="this.form.submit()">
                                 <?php 
                                     $sort_options = array(
                                         "product_name ASC" => "Nazwa rosnąco",
@@ -215,7 +250,7 @@
                                     );
 
                                     foreach($sort_options as $key => $value) {
-                                        if($key == $sort_selected) {
+                                        if($key == $sort) {
                                             echo "<option value='".$key."' class=sort-option selected>".$value."</option>";
                                         } else {
                                             echo "<option value='".$key."' class=sort-option >".$value."</option>";
@@ -225,9 +260,9 @@
                             
                             </select>
 
-                            <div id="product-num">
+                            <div id="product-num" class=sort>
                                 <label for="product-num" id="product-num-label">Liczba produktów na stronie: </label>
-                                <input type="range" name="limit" id="product-num" min="10" max="<?php echo mysqli_num_rows($result)?>" step="1" value="<?php echo $limit;?>">
+                                <input type="range" name="limit" id="product-num-slider" min="10" max="<?php echo $num_of_products?>" step="1" value="<?php echo $limit;?>" onchange="this.form.submit()">
                             </div>
                         </div>
                     </form>
@@ -240,9 +275,7 @@
                     <div id=shop-products-list>
                 
                 <?php
-                            for($i = 0; $i < $limit; $i++) {
-                            
-                            $row = mysqli_fetch_assoc($result);
+                            while($row = mysqli_fetch_assoc($result)){
 
                             $product_photos = $row['product_photos'];
 
@@ -257,11 +290,9 @@
                                 } 
                             }
 
-                            $row_num = $i+1;
-
                                 echo "
                                     <a href='product.php?product=".$row['id_products']."'>
-                                        <div class=shop-product id='product".$row_num."'>
+                                        <div class=shop-product>
                                             <div class='shop-product-main-photo bg-placeholder' style='background-image: url(uploaded_photos/".$main_photo.")'></div>
                                             <div class=shop-prouct-info>
                                                 <a class=shop-product-name>".$row['product_name']."</a>
@@ -281,7 +312,11 @@
                             $limit = $limit - ($limit-$num_of_products);
                         }
 
-                        echo "<a id='show-more-button' class='center' href='shop.php#product".$limit."?".$url."&limit=".$limit."'>Pokaż więcej produktów<img id=arrow-down-icon src='ico/icons8-down-arrow-32.png'></a>";
+                        echo "
+                        <form id=search-form action='shop.php?".$url."' method='post'>
+                            <input type=hidden name=limit value=".$limit.">
+                            <input type=submit id='show-more-button' class='center pointer' value='Pokaż więcej produktów'>
+                        </form>";
                     }
                 ?>
 

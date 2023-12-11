@@ -78,13 +78,75 @@
         if(isset($_SESSION['id']) && isset($_SESSION['password'])){
             // logged
     ?>
+
         <main id="reservations">
             <h1 id="reservations-header">Twoje rezerwacje</h1>
+            <div id="reservations-summary">
+                <h2>Podsumowanie rezerwacji</h2>
+                <div id="summary-box">
+                        <?php 
+                            $conn = OpenConn();
+
+                            $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status_id, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status_id = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                            $result = mysqli_query($conn, $sql);
+
+                            close($conn);
+
+                            $expired = array();
+                            $waiting = array();
+                            $preparation = array();
+
+                            if(mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    $remaining_time = (strtotime($row['reservation_pickup']) - strtotime(date("Y-m-d")))/86400;
+                                    if($row['reservation_status_id'] == 3) {
+                                        //gotowe do odbioru
+                                        if($remaining_time < 0) {
+                                            //przedawnione
+                                            array_push($expired, $row['pickup_code']);
+                                        } else {
+                                            $waiting_array = array($code = $row['pickup_code'], $remaining = $remaining_time);
+                                            array_push($waiting, $waiting_array);
+                                        }
+                                    } else if($row['reservation_status_id'] == 2) {
+                                        //zatwierdzone
+                                        array_push($preparation, $row['pickup_code']);
+                                    }
+                                }
+                            } else {
+                                echo '<li class="summary-list-option">Żadne zamówienie nie czeka na odebranie</li>';
+                            }
+                            
+                            echo '<div class="summary-category">';
+                            echo '<a class="summary-category-header bold">Rezerwacje do odebrania ('.count($waiting).'):</a>';
+                            echo '<ul class="summary-category-list fontw-normal">';
+                            foreach($waiting as $key => $value) {
+                                $pickup_code = $value[0];
+                                $remaining = $value[1];
+                                
+                                echo '<li class="summary-list-option"><a href="#'.$pickup_code.'">'.$pickup_code.' oczekuje jeszcze '.$remaining.' dni</a></li>';
+                            }
+                            echo '</ul></div>';
+
+                            echo '<div class="summary-category">';
+                            echo '<a class="summary-category-header bold">W przygotowaniu ('.count($preparation).'):</a>';
+                            echo '<ul class="summary-category-list fontw-normal">';
+                            foreach($preparation as $key => $value) {
+                                echo '<li class="summary-list-option "><a href="#'.$pickup_code.'">'.$value.'</a></li>';
+                            }
+                            echo '</ul></div>';
+                        ?>
+
+                </div>
+            </div>
+
+            
+
             <ul id=reservations-list>
                 <?php 
                     $conn = OpenConn();
 
-                    $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                    $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status_id = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
                     $result = mysqli_query($conn, $sql);
 
                     close($conn);
@@ -104,7 +166,7 @@
                         }
 
                         foreach($reservations as $key => $reservation) {
-                            echo "<li class=reservation-box>
+                            echo "<li class=reservation-box id=".$reservation.">
                                 <a class=pickup_code>Numer zamówienia: ".$reservation."</a>
                                 <div class=reservation-data> 
                                     <div class=reservation-data-box>
@@ -113,7 +175,7 @@
                                     </div>
 
                                     <div class=reservation-data-box>
-                                        <a class=reservation-data-caption>Data odbioru: </a>
+                                        <a class=reservation-data-caption>Oczekuje do: </a>
                                         <a class=reservation-data-value>".$pickup[$key]."</a>
                                     </div>
 

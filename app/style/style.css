@@ -345,10 +345,11 @@ h2 {
     display: none;
     flex-direction: column;
     background: rgb(207, 207, 207);
-    position: absolute;
+    position: fixed;
     right: 0;
     width: max-content;
     top: 66px;
+    z-index: 1 !important; 
 }
 
 #unwrap-account-menu:hover #wrapper-account-menu {
@@ -837,20 +838,20 @@ h2 {
     box-sizing: border-box;
 }
 
-#sort {
+#sort-list {
     height: 30px;
-    box-sizing: border-box;
     font-size: 15px;
 }
 
-#product-num {
-    margin-left: 10px;
+#product-num{
     border: 1px solid black;
     padding-left: 5px;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     align-items:  center;
+    justify-content: space-between;
+    margin-left: 10px;
 }
 
 #result-info {
@@ -867,9 +868,72 @@ h2 {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    background: white;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    font-family: 'Work Sans', sans-serif;
 }
 
 #arrow-down-icon {
     width: 15px;
     margin-left: 10px;
+}
+
+#categories-list-mobile {
+    line-height: 30px;
+    display:none;
+}
+
+#close-wrapper-box {
+    width: 100%;
+    text-align: right;
+    display: none;
+}
+
+.close-wrapper-button {
+    border: 1px solid black;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#open-wrapper-box {
+    box-sizing: border-box;
+    width: 100%;
+    height: max-content;
+    margin-top: 10px;
+    display: none;
+}
+
+.open-wrapper-button {
+    background: rgb(184, 184, 184);
+    padding: 10px;
+    width: max-content;
+    box-sizing: border-box;
+    display: block;
+}
+
+#reservations-summary {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    height: max-content;
+    padding: 20px;
+    background: rgb(184, 184, 184);
+    margin-bottom: 50px;
+    z-index: 0 !important; 
+}
+
+#summary-box {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.summary-category {
+    display: flex;
+    flex-direction: column;
 }
