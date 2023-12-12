@@ -166,6 +166,124 @@
         <div id="product_description">
             <?php echo $product_description; ?>
         </div>
+
+        <div id="product-comments-main">
+            <?php 
+                if(is_logged()) {
+            ?>
+
+                <form action="db_conn/add_comment.php?destination=<?php echo $product?>" id="comment-input-form" method="post">
+                    <textarea  name="comment" id="comment-input" placeholder="Dodaj komentarz"></textarea>
+                    <input type="submit" id=comment-submit class=pointer value="Skomentuj">
+                </form>
+
+            <?php 
+                    if(isset($_GET['success-comment'])) {
+                ?>
+                    <div id="comment-add-response">
+                        Twój komentarz został wysłany do zatwierdzenia przez administratora strony.
+                        <a onclick="closeResponse()" id=close-comment-response class=pointer>Zamknij</a>
+                    </div>
+                <?php
+                    }
+                ?>
+
+                <?php
+                    }
+
+                    $conn = OpenConn();
+
+                    $sql = "SELECT * FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_product_comments = '".$product."' ORDER BY date DESC";
+                    $result = mysqli_query($conn, $sql);
+                    close($conn);
+
+                    $date = time();
+
+                    if(mysqli_num_rows($result) >= 1) {
+                        echo "<div id=comments>";
+
+                        while($row = mysqli_fetch_assoc($result)) {
+                            if($row['verified'] == 1) {
+                                $add_date = $row['date'];
+                                $add_date = strtotime($add_date);
+
+                                $diff = abs($date - $add_date);
+                                $years = floor($diff / (365*60*60*24));
+                                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+                                if($years > 0) {
+                                    $date_info = $row['date'];
+                                } else if($months > 9 && $months <= 12) {
+                                    $date_info = "kilkanaście miesięcy temu";
+                                } else if ($months > 1 && $months <= 9) {
+                                    $date_info = "kilka miesięcy temu";
+                                } else if($days > 1 && $days <= 30) {
+                                    $date_info = "kilka dni temu";
+                                } else if($days <= 1) {
+                                    $date_info = "kilka godzin temu";
+                                } else {
+                                    $date_info = $row['date'];
+                                }
+
+                                $conn = OpenConn();
+
+                                $sql = "SELECT id_comments_likes FROM comments_likes WHERE id_comment = ".$row['id_comments']."";
+                                $num = mysqli_query($conn, $sql);
+
+                                if(is_logged()) {
+                                    $sql = "SELECT id_comments_likes FROM comments_likes WHERE id_user_likes = ".$_SESSION['id']." AND id_comment = ".$row['id_comments']."";
+                                    $reaction_check = mysqli_query($conn, $sql);
+
+                                    if(mysqli_num_rows($reaction_check) == 0) {
+                                        $check = "";
+                                    } else {
+                                        $check = "bold";
+                                    }
+                                } else {
+                                    $check = "";
+                                }
+
+                                close($conn);
+
+                                if(mysqli_num_rows($num) == 0) {
+                                    $num_of_reactions = "";
+                                } else {
+                                    $num_of_reactions = "(".mysqli_num_rows($num).")";
+                                }
+
+                                ?>
+                                <div class='comment-box alerts-border'id='comment<?php echo $row['id_comments']?>'>
+                                    <div class='comment-info'>
+                                        <a class='comment-author bold'><?php echo $row['firstname']?></a>
+                                        <a class='comment-date'><?php echo $date_info ?></a>
+                                    </div>
+                                    <a class='comment-content'><?php echo $row['comments_content']?></a> 
+                                    <div class='comment-interactions'>
+                                        <a class='comment-interaction pointer <?php echo $check ?>' href="db_conn/comment_reaction.php?comment=<?php echo $row['id_comments']?>&destination=<?php echo $product?>">Przydatne <?php echo $num_of_reactions?></a>
+                                        <a class='comment-interaction pointer' onclick="show(<?php echo $row['id_comments']?>)">Odpowiedz</a>
+                                        <a class='comment-interaction pointer' id='interactions-options'>Opcje</a>
+                                    </div>
+                                    <form action="db_conn/add_answer.php?destination=<?php echo $product?>" class="answer-form" method="post" id="input<?php echo $row['id_comments']?>">
+                                        <textarea name="answer" class="answer-input" placeholder="Dodaj odpowiedź"></textarea>
+                                        <input type="hidden" name="answers_to" value=<?php echo $row['id_comments']?>>
+                                        <div class="answer-form-options">
+                                            <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo $row['id_comments']?>)">Anuluj</a>
+                                            <input type="submit" class='answer-submit pointer' value="Odpowiedz">
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <?php
+                            }
+                        }
+                    } else {
+                        echo "<p id=error-response-for-client>Nikt jeszcze nie skomentował</p><p id=error-back-link><a>Bądź pierwszy!</a></p>";
+                    }
+
+                ?>
+                </div>
+        </div>
     </div>
 
     <script>
@@ -175,31 +293,65 @@
         document.getElementById("gallery").style.overflow = "hidden";
     }
 
-        function handle_click(photo) {
-            main = document.getElementById("main-photo")
+    const opened_inputs = [];
 
-            photos = document.getElementsByClassName("gallery-photo")
+    function handle_click(photo) {
+        main = document.getElementById("main-photo")
 
-            if(photos.length < 6) {
-                document.getElementById("gallery").style.overflow = "hidden";
-            }
+        photos = document.getElementsByClassName("gallery-photo")
 
-            for(let i = 0; i < photos.length; i++){
-                try {
-                    photos[i].removeAttribute("id")
-                } finally {
-                    photos[i].removeAttribute("id")
-                }
-             }
-            
-            photo.setAttribute("id", "choosen")
-
-            file_name = photo.getAttribute("style")
-            file_name = file_name.split(": ");
-            file_name = file_name[1]
-
-            main.style.backgroundImage = file_name
+        if(photos.length < 6) {
+            document.getElementById("gallery").style.overflow = "hidden";
         }
+
+        for(let i = 0; i < photos.length; i++){
+            try {
+                photos[i].removeAttribute("id")
+            } finally {
+                photos[i].removeAttribute("id")
+            }
+            }
+        
+        photo.setAttribute("id", "choosen")
+
+        file_name = photo.getAttribute("style")
+        file_name = file_name.split(": ");
+        file_name = file_name[1]
+
+        main.style.backgroundImage = file_name
+    }
+
+    function closeResponse() {
+        console.log("comment-add-response")
+        document.getElementById("comment-add-response").style.display = "none";
+    }
+
+    function show(element) {
+        opened_inputs.push(element)
+
+        if(opened_inputs.length <= 1){
+            console.log(opened_inputs[0])
+            document.getElementById('input'+element).style.display = "flex";
+        } else {
+            console.log("2")
+            document.getElementById('input'+opened_inputs[0]).style.display = "none";
+            opened_inputs.splice(0,1)
+            document.getElementById('input'+element).style.display = "flex";
+        }
+    }
+
+    function hide(element) {
+        console.log(element)
+        document.getElementById('input'+element).style.display = "none";
+    }
+
+    // function highlight(element) {
+    //     console.log(element)
+    //     document.getElementById('comment'+element).style.animationPlayState = "running";
+
+    //     setTimeout(() => { document.getElementById('comment'+element).style.animationPlayState = "paused"; }, 1000);
+    // }
+
     </script>
 
     <?php 

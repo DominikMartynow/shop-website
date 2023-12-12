@@ -38,4 +38,5 @@
 
         return mysqli_num_rows($result);
     }
+    
 ?>

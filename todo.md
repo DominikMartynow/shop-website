@@ -1,14 +1,8 @@
-rezerwacje: filtrowanie
-
-Komentarze dotyczace produktu, mozliwosc dyskusji
+Zatwierdzanie komentarzy, wyświetlanie odpowiedzi, możliwość usuwania oraz edycji wraz z historią edycji.
 
 Otrzymanie kodu rezerwacji, wyslanie go na maila
 
-W rezerwacjach podsumwanie, ile odebranych ile oczekuje itp.
-
 Edycja produktow
-
-Zatwerdzanie komentarzy
 
 Przypomnienie hasła
 

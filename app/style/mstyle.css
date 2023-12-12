@@ -93,6 +93,21 @@
         text-decoration: underline;
         background: white;
     }
+
+    #comment-input-form, #comment-add-response, #comments, #comment-input {
+        width: 100%;
+    }
+
+    #comment-input-form {
+        flex-direction: column;
+        align-items: end;
+    }
+
+    #comment-submit {
+        width: 20%;
+        margin-top: 10px;
+        border-radius: 20px;
+    }
 }
 
 @media (max-width: 800px) {
