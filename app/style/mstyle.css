@@ -232,6 +232,10 @@
     #summary-box {
         flex-direction: column;
     }
+
+    #reservations-filter {
+        display: none;
+    }
 }
 
 

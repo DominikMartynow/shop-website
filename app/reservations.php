@@ -132,21 +132,47 @@
                             echo '<a class="summary-category-header bold">W przygotowaniu ('.count($preparation).'):</a>';
                             echo '<ul class="summary-category-list fontw-normal">';
                             foreach($preparation as $key => $value) {
-                                echo '<li class="summary-list-option "><a href="#'.$pickup_code.'">'.$value.'</a></li>';
+                                echo '<li class="summary-list-option "><a href="#'.$key.'">'.$value.'</a></li>';
                             }
                             echo '</ul></div>';
                         ?>
 
                 </div>
-            </div>
+                <div id="reservations-filter">
+                    <h2>Wyświetlaj</h2>
+                <ul id="display-filters-list">
+                    <a href="reservations.php"><li class='display-filters-option bold'>Wszystko</li></a>
+                    <?php
+                        $conn = OpenConn();
 
-            
+                        $sql = "SELECT DISTINCT reservation_status_id, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status_id = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                        $result = mysqli_query($conn, $sql);
+
+                        if(mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                if(isset($_GET['display']) && $_GET['display'] == $row['reservation_status_id']) {
+                                    echo "<a href='reservations.php?display=".$row['reservation_status_id']."'><li class='display-filters-option underline'>".$row['reservation_status']."</li></a>";
+                                } else {
+                                    echo "<a href='reservations.php?display=".$row['reservation_status_id']."'><li class=display-filters-option>".$row['reservation_status']."</li></a>";
+                                }
+                            }
+                        }
+
+                        close($conn);
+                    ?>
+                </ul>
+            </div>
+            </div>
 
             <ul id=reservations-list>
                 <?php 
                     $conn = OpenConn();
 
-                    $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status_id = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                    if(isset($_GET['display'])) {
+                        $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status_id = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' AND reservation_status_id = ".$_GET['display']." ORDER BY pickup_code DESC;";
+                    } else {
+                        $sql = "SELECT DISTINCT pickup_code, reservation_date, reservation_pickup, reservation_status.reservation_status FROM `handel_wielobranzowy`.`reservations` INNER JOIN `handel_wielobranzowy`.`reservation_status` ON reservations.reservation_status_id = reservation_status.id_reservation_status WHERE reservations.id_user = '".$_SESSION['id']."' ORDER BY pickup_code DESC;";
+                    }
                     $result = mysqli_query($conn, $sql);
 
                     close($conn);

@@ -937,6 +937,20 @@ h2 {
     flex-direction: column;
 }
 
+#display-filters-list{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.display-filters-option {
+    padding: 10px;
+    background: rgb(122, 122, 122);
+    color: white;
+
+}
+
+
 #product-comments-main {
     width: 100%;
     height: max-content;
