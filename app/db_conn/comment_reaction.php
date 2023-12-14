@@ -25,15 +25,19 @@ if(isset($_GET['comment'])) {
                 $sql = "INSERT INTO `comments_likes`(`id_comments_likes`,`id_user_likes`,`id_comment`) VALUES ('', '".$_SESSION['id']."', '".$comment."');";
             
                 if(mysqli_query($conn, $sql)) {
-                    header("Location: ../product.php?product=".$product."");
+                    if(isset($_GET['comment'])) {
+                        header("Location: ../product.php?product=".$product."#comment".$_GET['comment']."");
+
+                    } else {
+                        header("Location: ../product.php?product=".$product."");
+
+                    }
                 } else {
                     echo mysqli_error($conn);
                 }
             }
 
             close($conn);
-
-            header("Location: ../product.php?product=".$_GET['destination']."");
         } else {
             header("Location: ../product.php");
         }

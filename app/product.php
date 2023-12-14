@@ -253,7 +253,7 @@
                                 }
 
                                 ?>
-                                <div class='comment-box alerts-border'id='comment<?php echo $row['id_comments']?>'>
+                                <div class='comment-box alerts-border' id='comment<?php echo $row['id_comments']?>'>
                                     <div class='comment-info'>
                                         <a class='comment-author bold'><?php echo $row['firstname']?></a>
                                         <a class='comment-date'><?php echo $date_info ?></a>
