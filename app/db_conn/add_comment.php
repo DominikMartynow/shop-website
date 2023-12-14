@@ -1,6 +1,8 @@
 <?php 
+    //jest lokalizacja finalna
     if(!empty($_GET['destination'])) {
         $product = $_GET['destination'];
+        //jest komentarz
         if(!empty($_POST['comment'])) {
             session_start();
             include("connect.php");
@@ -20,21 +22,76 @@
 
             $date = date('Y-m-d H:i:s');
 
-            if($_SESSION['admin'] == 1) {
-                $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`) VALUES ('', '".$author."', '".$comment."', '1', '".$product."', '".$date."')";
+            //tryb ustalony
+            if(isset($_GET['mode'])) {
+                $mode = $_GET['mode'];
+            //tryb nieznany
             } else {
-                $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`) VALUES ('', '".$author."', '".$comment."', '', '".$product."', '".$date."')";
+                $mode = 'c';
+            }
+
+            //czy user = admin
+            if($_SESSION['admin'] == 1) {
+                //dodaje bez zatwierdzenia
+
+                //tryb comment
+                if($mode == 'c') {
+                    $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '1', '".$product."', '".$date."', '/')";
+                //tryb answer
+                } else if($mode == 'a') {
+                    //znany komentarz wątku
+                    if(isset($_POST['path'])) {
+                        $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '1', '".$product."', '".$date."', '".$_POST['path']."')";                        
+                    //nieznany komentarz wątku
+                    } else {
+                        header("Location: ../product.php?product=".$product."");
+                    }
+                }
+
+            } else {
+                //dodaje z zatwierdzeniem
+
+                //tryb comment
+                if($mode == 'c') {
+                    $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '', '".$product."', '".$date."', '/')";
+                //tryb answer
+                } else if($mode == 'a') {
+                    //znany komentarz wątku
+                    if(isset($_POST['path'])) {
+                        $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '', '".$product."', '".$date."', '".$_POST['path']."')";                        
+                    //nieznany komentarz wątku
+                    } else {
+                        header("Location: ../product.php?product=".$product."");
+                    }
+                }
             }
             
+            //jesli dodanie sukces
             if(mysqli_query($conn, $sql)) {
-                header("Location: ../product.php?product=".$product."&success-comment=1");
+                //przenosi do lokalizacji finalnej
+
+                //lokalizacja komentarza ustalona
+                if(isset($_GET['comment'])) {
+                    header("Location: ../product.php?product=".$product."#comment".$_GET['comment']);
+                //lokalizacja komentarza nieustalona
+                } else {
+                    header("Location: ../product.php?product=".$product."");
+                }
+
+
+            //jesli dodanie blad
             } else {
+                //wysweitla blad
                 echo mysqli_error($conn);
             }
+
             close($conn);
+
+        //komentarz pusty
         } else {
             header("Location: ../product.php?product=".$product."");
         }
+    //brak lokalizacji finalnej
     } else {
         header("Location: ../product.php");
     }

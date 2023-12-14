@@ -17,7 +17,11 @@ if(isset($_GET['comment'])) {
                 $sql = "DELETE FROM comments_likes WHERE id_user_likes = ".$_SESSION['id']." AND id_comment = ".$comment."";
 
                 if(mysqli_query($conn, $sql)) {
-                    header("Location: ../product.php?product=".$product."");
+                    if(isset($_GET['comment'])) {
+                        header("Location: ../product.php?product=".$product."#comment".$_GET['comment']."");
+                    } else {
+                        header("Location: ../product.php?product=".$product."");
+                    }
                 } else {
                     echo mysqli_error($conn);
                 }
@@ -27,10 +31,8 @@ if(isset($_GET['comment'])) {
                 if(mysqli_query($conn, $sql)) {
                     if(isset($_GET['comment'])) {
                         header("Location: ../product.php?product=".$product."#comment".$_GET['comment']."");
-
                     } else {
                         header("Location: ../product.php?product=".$product."");
-
                     }
                 } else {
                     echo mysqli_error($conn);

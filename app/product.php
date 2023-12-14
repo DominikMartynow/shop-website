@@ -172,24 +172,15 @@
                 if(is_logged()) {
             ?>
 
-                <form action="db_conn/add_comment.php?destination=<?php echo $product?>" id="comment-input-form" method="post">
+                <form action="db_conn/add_comment.php?destination=<?php echo $product?>&mode=c" id="comment-input-form" method="post">
                     <textarea  name="comment" id="comment-input" placeholder="Dodaj komentarz"></textarea>
                     <input type="submit" id=comment-submit class=pointer value="Skomentuj">
                 </form>
 
-            <?php 
-                    if(isset($_GET['success-comment'])) {
-                ?>
-                    <div id="comment-add-response">
-                        Twój komentarz został wysłany do zatwierdzenia przez administratora strony.
-                        <a onclick="closeResponse()" id=close-comment-response class=pointer>Zamknij</a>
-                    </div>
                 <?php
                     }
-                ?>
 
-                <?php
-                    }
+                    $answers = array();
 
                     $conn = OpenConn();
 
@@ -197,34 +188,13 @@
                     $result = mysqli_query($conn, $sql);
                     close($conn);
 
-                    $date = time();
-
                     if(mysqli_num_rows($result) >= 1) {
                         echo "<div id=comments>";
 
                         while($row = mysqli_fetch_assoc($result)) {
                             if($row['verified'] == 1) {
-                                $add_date = $row['date'];
-                                $add_date = strtotime($add_date);
 
-                                $diff = abs($date - $add_date);
-                                $years = floor($diff / (365*60*60*24));
-                                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-                                $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-
-                                if($years > 0) {
-                                    $date_info = $row['date'];
-                                } else if($months > 9 && $months <= 12) {
-                                    $date_info = "kilkanaście miesięcy temu";
-                                } else if ($months > 1 && $months <= 9) {
-                                    $date_info = "kilka miesięcy temu";
-                                } else if($days > 1 && $days <= 30) {
-                                    $date_info = "kilka dni temu";
-                                } else if($days <= 1) {
-                                    $date_info = "kilka godzin temu";
-                                } else {
-                                    $date_info = $row['date'];
-                                }
+                                $date_info = dateInfo($row['date']);
 
                                 $conn = OpenConn();
 
@@ -234,6 +204,7 @@
                                 if(is_logged()) {
                                     $sql = "SELECT id_comments_likes FROM comments_likes WHERE id_user_likes = ".$_SESSION['id']." AND id_comment = ".$row['id_comments']."";
                                     $reaction_check = mysqli_query($conn, $sql);
+                                    close($conn);
 
                                     if(mysqli_num_rows($reaction_check) == 0) {
                                         $check = "";
@@ -244,15 +215,17 @@
                                     $check = "";
                                 }
 
-                                close($conn);
-
                                 if(mysqli_num_rows($num) == 0) {
                                     $num_of_reactions = "";
                                 } else {
                                     $num_of_reactions = "(".mysqli_num_rows($num).")";
                                 }
 
+                                //wysweitla tylko komentarze wątkowe
+                                if($row['path'] == "/") {
                                 ?>
+
+                                <!-- wyswietla komentarz -->
                                 <div class='comment-box alerts-border' id='comment<?php echo $row['id_comments']?>'>
                                     <div class='comment-info'>
                                         <a class='comment-author bold'><?php echo $row['firstname']?></a>
@@ -264,22 +237,101 @@
                                         <a class='comment-interaction pointer' onclick="show(<?php echo $row['id_comments']?>)">Odpowiedz</a>
                                         <a class='comment-interaction pointer' id='interactions-options'>Opcje</a>
                                     </div>
-                                    <form action="db_conn/add_answer.php?destination=<?php echo $product?>" class="answer-form" method="post" id="input<?php echo $row['id_comments']?>">
-                                        <textarea name="answer" class="answer-input" placeholder="Dodaj odpowiedź"></textarea>
-                                        <input type="hidden" name="answers_to" value=<?php echo $row['id_comments']?>>
+                                    <form action="db_conn/add_comment.php?comment=<?php echo $row['id_comments']?>&destination=<?php echo $product?>&mode=a" class="answer-form" method="post" id="input<?php echo $row['id_comments']?>">
+                                        <textarea name="comment" class="answer-input" placeholder="Dodaj odpowiedź"></textarea>
+                                        <input type="hidden" name="path" value='/<?php echo $row['id_comments']?>'>
                                         <div class="answer-form-options">
                                             <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo $row['id_comments']?>)">Anuluj</a>
                                             <input type="submit" class='answer-submit pointer' value="Odpowiedz">
                                         </div>
-
                                     </form>
                                 </div>
                                 <?php
+                                    //wyswietla odpowiedzi do danego komentarza
+                                    
+                                    $conn_a = OpenConn();
+
+                                    $sql_a = "SELECT * FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_product_comments = '".$product."' AND path LIKE '/".$row['id_comments']."%' ORDER BY date ASC";
+                                    $result_a = mysqli_query($conn_a, $sql_a);
+                                    
+                                    if(mysqli_num_rows($result_a) > 0) {
+                                        while($row_a = mysqli_fetch_array($result_a)) {
+
+                                            $conn = OpenConn();
+
+                                            $sql = "SELECT id_comments_likes FROM comments_likes WHERE id_comment = ".$row_a['id_comments']."";
+                                            $num = mysqli_query($conn, $sql);
+
+                                            if(is_logged()) {
+                                                $sql = "SELECT id_comments_likes FROM comments_likes WHERE id_user_likes = ".$_SESSION['id']." AND id_comment = ".$row_a['id_comments']."";
+                                                $reaction_check = mysqli_query($conn, $sql);
+
+                                                if(mysqli_num_rows($reaction_check) == 0) {
+                                                    $check = "";
+                                                } else {
+                                                    $check = "bold";
+                                                }
+                                            } else {
+                                                $check = "";
+                                            }
+
+                                            if(mysqli_num_rows($num) == 0) {
+                                                $num_of_reactions = "";
+                                            } else {
+                                                $num_of_reactions = "(".mysqli_num_rows($num).")";
+                                            }
+                                                        
+                                            $date_info = dateInfo($row_a['date']);
+
+                                            $answer_to = explode("/", $row_a['path']);
+                                            $answer_to = end($answer_to);
+
+                                            $sql = "SELECT firstname FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_comments = ".$answer_to."";
+                                            $author_check = mysqli_query($conn, $sql);
+
+                                            if(mysqli_num_rows($author_check) > 0) {
+                                                $row_author_check = mysqli_fetch_array($author_check);
+                                                $thread_autor = $row_author_check['firstname'];
+                                            } else {
+                                                $thread_autor = "anonim";
+                                            }
+
+                                            close($conn);
+                                        ?>
+                                            <!-- wyswietla odpowiedz -->
+                                            <div class='answer-box alerts-border' id='comment<?php echo $row_a['id_comments']?>'>
+                                                <div class='comment-info'>
+                                                    <a class='comment-author bold'><?php echo $row_a['firstname']?></a>
+                                                    <a class='comment-date'><?php echo $date_info ?></a>
+                                                </div>
+                                                <a class='comment-content'><?php echo "<a class=answer-to href='product.php?product=".$product."#comment".$answer_to."' onclick='highlight(".$answer_to.")'>@".$thread_autor."</a> ".$row_a['comments_content']?></a> 
+                                                <div class='comment-interactions'>
+                                                    <a class='comment-interaction pointer <?php echo $check ?>' href="db_conn/comment_reaction.php?comment=<?php echo $row_a['id_comments']?>&destination=<?php echo $product?>">Przydatne <?php echo $num_of_reactions?></a>
+                                                    <a class='comment-interaction pointer' onclick="show(<?php echo $row_a['id_comments']?>)">Odpowiedz</a>
+                                                    <a class='comment-interaction pointer' id='interactions-options'>Opcje</a>
+                                                </div>
+                                                <form action="db_conn/add_comment.php?comment=<?php echo $row_a['id_comments']?>&destination=<?php echo $product?>&mode=a" class="answer-form" method="post" id="input<?php echo $row_a['id_comments']?>">
+                                                    <textarea name="comment" class="answer-input" placeholder="Dodaj odpowiedź"></textarea>
+                                                    <input type="hidden" name="path" value='<?php echo $row_a['path']."/".$row_a['id_comments'] ?>'>
+                                                    <div class="answer-form-options">
+                                                        <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo $row_a['id_comments']?>)">Anuluj</a>
+                                                        <input type="submit" class='answer-submit pointer' value="Odpowiedz">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        <?php
+                                        }
+                                    }
+
+                                    close($conn_a);
+                                }
                             }
                         }
                     } else {
                         echo "<p id=error-response-for-client>Nikt jeszcze nie skomentował</p><p id=error-back-link><a>Bądź pierwszy!</a></p>";
                     }
+
+
 
                 ?>
                 </div>
@@ -310,7 +362,7 @@
             } finally {
                 photos[i].removeAttribute("id")
             }
-            }
+        }
         
         photo.setAttribute("id", "choosen")
 
@@ -329,9 +381,12 @@
     function show(element) {
         opened_inputs.push(element)
 
+        console.log(element)
+
         if(opened_inputs.length <= 1){
             console.log(opened_inputs[0])
             document.getElementById('input'+element).style.display = "flex";
+
         } else {
             console.log("2")
             document.getElementById('input'+opened_inputs[0]).style.display = "none";
@@ -345,12 +400,12 @@
         document.getElementById('input'+element).style.display = "none";
     }
 
-    // function highlight(element) {
-    //     console.log(element)
-    //     document.getElementById('comment'+element).style.animationPlayState = "running";
+    function highlight(element) {
+        console.log(element)
+        document.getElementById('comment'+element).style.animationPlayState = "running";
 
-    //     setTimeout(() => { document.getElementById('comment'+element).style.animationPlayState = "paused"; }, 1000);
-    // }
+        setTimeout(() => { document.getElementById('comment'+element).style.animationPlayState = "paused"; }, 2000);
+    }
 
     </script>
 

@@ -34,12 +34,11 @@
                 $_SESSION['password'] = $row['password'];
                 $_SESSION['mail'] = $row['mail'];
 
-                $_SESSION['admin'] = 0;
-
                 if($row["admin"] == 1) {
                     $_SESSION["admin"] = 1;
                     header("Location: ../admin.php");
                 } else if(isset($_GET["destination"])){
+                    $_SESSION['admin'] = 0;
                     header("Location: ".$_GET["destination"]."");
                 } else {
                     header("Location: ../shop.php");

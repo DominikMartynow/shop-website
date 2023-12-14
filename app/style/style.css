@@ -989,24 +989,6 @@ h2 {
     border: 0;
 }
 
-#comment-add-response {
-    width: 70%;
-    padding: 10px;
-    box-sizing: border-box;
-    background: rgb(207, 207, 207);
-    margin-top: 10px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#close-comment-response {
-    border: 1px solid rgb(184, 184, 184);
-    padding: 5px;
-    box-sizing: border-box;
-}
-
 #comments {
     width: 70%;
     margin-top: 50px;
@@ -1017,6 +999,18 @@ h2 {
 
 .comment-box {
     width: 100%;
+    height: max-content;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(247, 247, 247);
+    position: relative;
+}
+
+.answer-box {
+    margin-left: 10%;
+    width: 90%;
     height: max-content;
     padding: 20px;
     box-sizing: border-box;
@@ -1061,14 +1055,14 @@ h2 {
     box-sizing: border-box;
 }
 
-/* .alerts-border {
+.alerts-border {
     border: 0;
     animation: blink 1s;
     animation-iteration-count: 100;
     animation-play-state: paused;
 }
 
-@keyframes blink { 50% { background-color: rgb(252, 252, 252) }} */
+@keyframes blink { 50% { background-color: rgb(189, 189, 189) }}
 
 .comment-interactions {
     margin-top: 20px;
@@ -1130,4 +1124,10 @@ textarea {
     border-radius: 20px;
     font-weight: bold;
     color: white;
+}
+
+.answer-to {
+    color: gray;
+    font-weight: bold;
+    line-height: 25px;
 }
