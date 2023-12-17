@@ -1051,7 +1051,7 @@ h2 {
     margin-top: 10px;
     font-size: 17px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     box-sizing: border-box;
 }
 
@@ -1130,4 +1130,69 @@ textarea {
     color: gray;
     font-weight: bold;
     line-height: 25px;
+}
+
+.comment-options-list {
+    display: none;
+    width: 100%;
+    flex-direction: row;
+    justify-content: end;
+    gap: 20px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.comment-options-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 20px;
+    width: max-content;
+}
+
+.comment-options-list-option {
+    background: rgb(119, 119, 119);
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 15px;
+}
+
+.comment-edit-box {
+    display: none;
+    width: 100%;
+    height: max-content;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.edit-comment-input {
+    width: 100%;
+    min-height: 50px;
+    height: 50px;
+    padding: 15px;
+    font-size: 15px;
+    box-sizing: border-box;
+    border: 0;
+    border-bottom: 1px solid rgb(184, 184, 184);
+    resize: vertical;
+}
+
+.edit-comment-options-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 20px;
+    width: 100%;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.edit-submit {
+    background: rgb(119, 119, 119);
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 15px;
+    border: 0;
 }

@@ -174,7 +174,7 @@
 
                 <form action="db_conn/add_comment.php?destination=<?php echo $product?>&mode=c" id="comment-input-form" method="post">
                     <textarea  name="comment" id="comment-input" placeholder="Dodaj komentarz"></textarea>
-                    <input type="submit" id=comment-submit class=pointer value="Skomentuj">
+                    <input type="submit" id='comment-submit' class=pointer value="Skomentuj">
                 </form>
 
                 <?php
@@ -231,17 +231,54 @@
                                         <a class='comment-author bold'><?php echo $row['firstname']?></a>
                                         <a class='comment-date'><?php echo $date_info ?></a>
                                     </div>
-                                    <a class='comment-content'><?php echo $row['comments_content']?></a> 
+                                    <div class='comment-content' id=<?php echo "content".$row['id_comments']?>><?php echo $row['comments_content']?></div> 
+                                    
+                                    <!-- Edycja komentarza -->
+
+                                    <form class="comment-edit-box" id=<?php echo "edit".$row['id_comments']?> action="db_conn/edit_comment.php?destination=<?php echo $product?>&comment=<?php echo $row['id_comments']?>" method='post'>
+                                        <textarea name="edit" class="edit-comment-input" placeholder="Edytuj komentarz"><?php echo $row['comments_content']?></textarea>
+                                        <div class='edit-comment-options-box'>
+                                            <a class='pointer' onclick="showHide(<?php echo 'content'.$row['id_comments']?>, <?php echo 'edit'.$row['id_comments']?>)">Anuluj</a>
+                                            <input type="submit" class='edit-submit pointer' value="Zapisz">
+                                        </div>
+                                    </form>
+
                                     <div class='comment-interactions'>
                                         <a class='comment-interaction pointer <?php echo $check ?>' href="db_conn/comment_reaction.php?comment=<?php echo $row['id_comments']?>&destination=<?php echo $product?>">Przydatne <?php echo $num_of_reactions?></a>
-                                        <a class='comment-interaction pointer' onclick="show(<?php echo $row['id_comments']?>)">Odpowiedz</a>
-                                        <a class='comment-interaction pointer' id='interactions-options'>Opcje</a>
+                                        <a class='comment-interaction pointer' onclick="show(<?php echo 'input'.$row['id_comments']?>)">Odpowiedz</a>
+                                        <a class='comment-interaction pointer' id='interactions-options' onclick="show(<?php echo 'options'.$row['id_comments']?>)">Opcje</a>
                                     </div>
+                                    
+                                    <ul class="comment-options-list" id="options<?php echo $row['id_comments']?>">
+                                        <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo 'options'.$row['id_comments']?>)">Anuluj</a>
+                                        <?php
+                                            //jeśli user to wlasciciel komentarza wyswietla dodatkowe opcje
+                                            if(is_logged()) {
+                                                if($_SESSION['id'] == $row['comments_author']) {
+                                            ?>
+                                                <div class=comment-options-box>
+                                                    <li class="comment-options-list-option pointer" onclick="showHide(<?php echo 'edit'.$row['id_comments']?>, <?php echo 'content'.$row['id_comments']?>)">Edytuj</li>
+                                                    <a href='db_conn/delete_comment.php?destination=<?php echo $product?>&comment=<?php echo $row['id_comments']?>'><li class="comment-options-list-option">Usuń</li></a>
+                                                    <li class="comment-options-list-option">Historia edycji</li>
+                                                </div>
+                                            <?php
+                                                } else {
+                                            ?>
+                                                <div class=comment-options-box>
+                                                    <li class="comment-options-list-option">Historia edycji</li>
+                                                </div>
+                                            <?php
+                                                }
+                                            }
+                                        ?>
+
+                                    </ul>
+
                                     <form action="db_conn/add_comment.php?comment=<?php echo $row['id_comments']?>&destination=<?php echo $product?>&mode=a" class="answer-form" method="post" id="input<?php echo $row['id_comments']?>">
                                         <textarea name="comment" class="answer-input" placeholder="Dodaj odpowiedź"></textarea>
                                         <input type="hidden" name="path" value='/<?php echo $row['id_comments']?>'>
                                         <div class="answer-form-options">
-                                            <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo $row['id_comments']?>)">Anuluj</a>
+                                            <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo 'input'.$row['id_comments']?>)">Anuluj</a>
                                             <input type="submit" class='answer-submit pointer' value="Odpowiedz">
                                         </div>
                                     </form>
@@ -304,17 +341,55 @@
                                                     <a class='comment-author bold'><?php echo $row_a['firstname']?></a>
                                                     <a class='comment-date'><?php echo $date_info ?></a>
                                                 </div>
-                                                <a class='comment-content'><?php echo "<a class=answer-to href='product.php?product=".$product."#comment".$answer_to."' onclick='highlight(".$answer_to.")'>@".$thread_autor."</a> ".$row_a['comments_content']?></a> 
+                                                <div class='comment-content' id="content<?php echo $row_a['id_comments']?>">
+                                                    <?php echo "<a class=answer-to href='product.php?product=".$product."#comment".$answer_to."' onclick='highlight(".$answer_to.")'>@".$thread_autor."</a> ".$row_a['comments_content']?>
+                                                </div> 
+
+                                                <!-- Edycja komentarza -->
+
+                                                <form class="comment-edit-box" id=<?php echo "edit".$row_a['id_comments']?> action="db_conn/edit_comment.php?destination=<?php echo $product?>&comment=<?php echo $row_a['id_comments']?>" method='post'>
+                                                    <textarea name="edit" class="edit-comment-input" placeholder="Edytuj komentarz"><?php echo $row_a['comments_content']?></textarea>
+                                                    <div class='edit-comment-options-box'>
+                                                        <a class='pointer' onclick="showHide(<?php echo 'content'.$row_a['id_comments']?>, <?php echo 'edit'.$row_a['id_comments']?>)">Anuluj</a>
+                                                        <input type="submit" class='edit-submit pointer' value="Zapisz">
+                                                    </div>
+                                                </form>
+
                                                 <div class='comment-interactions'>
                                                     <a class='comment-interaction pointer <?php echo $check ?>' href="db_conn/comment_reaction.php?comment=<?php echo $row_a['id_comments']?>&destination=<?php echo $product?>">Przydatne <?php echo $num_of_reactions?></a>
-                                                    <a class='comment-interaction pointer' onclick="show(<?php echo $row_a['id_comments']?>)">Odpowiedz</a>
-                                                    <a class='comment-interaction pointer' id='interactions-options'>Opcje</a>
+                                                    <a class='comment-interaction pointer' onclick="show(<?php echo 'input'.$row_a['id_comments']?>)">Odpowiedz</a>
+                                                    <a class='comment-interaction pointer' id='interactions-options' onclick="show(<?php echo 'options'.$row_a['id_comments']?>)">Opcje</a>
                                                 </div>
+                                                <ul class="comment-options-list" id="options<?php echo $row_a['id_comments']?>">
+                                                    <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo 'options'.$row_a['id_comments']?>)">Anuluj</a>
+                                                    
+                                                    <?php
+                                                        //jeśli user to wlasciciel komentarza wyswietla dodatkowe opcje
+                                                        if(is_logged()) {
+                                                            if($_SESSION['id'] == $row_a['comments_author']) {
+                                                        ?>
+                                                            <div class=comment-options-box>
+                                                                <li class="comment-options-list-option" onclick="showHide(<?php echo 'edit'.$row_a['id_comments']?>, <?php echo 'content'.$row_a['id_comments']?>)">Edytuj</li>
+                                                                <a href='db_conn/delete_comment.php?destination=<?php echo $product?>&comment=<?php echo $row_a['id_comments']?>&thread=<?php echo $row['id_comments']?>'><li class="comment-options-list-option">Usuń</li></a>
+                                                                <li class="comment-options-list-option">Historia edycji</li>
+                                                            </div>
+                                                       <?php
+                                                            } else {
+                                                        ?>
+                                                            <div class=comment-options-box>
+                                                                <li class="comment-options-list-option">Historia edycji</li>
+                                                            </div>
+                                                        <?php
+                                                            }
+                                                        }
+                                                    ?>
+
+                                                </ul>
                                                 <form action="db_conn/add_comment.php?comment=<?php echo $row_a['id_comments']?>&destination=<?php echo $product?>&mode=a" class="answer-form" method="post" id="input<?php echo $row_a['id_comments']?>">
                                                     <textarea name="comment" class="answer-input" placeholder="Dodaj odpowiedź"></textarea>
                                                     <input type="hidden" name="path" value='<?php echo $row_a['path']."/".$row_a['id_comments'] ?>'>
                                                     <div class="answer-form-options">
-                                                        <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo $row_a['id_comments']?>)">Anuluj</a>
+                                                        <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo 'input'.$row_a['id_comments']?>)">Anuluj</a>
                                                         <input type="submit" class='answer-submit pointer' value="Odpowiedz">
                                                     </div>
                                                 </form>
@@ -327,11 +402,7 @@
                                 }
                             }
                         }
-                    } else {
-                        echo "<p id=error-response-for-client>Nikt jeszcze nie skomentował</p><p id=error-back-link><a>Bądź pierwszy!</a></p>";
-                    }
-
-
+                    } 
 
                 ?>
                 </div>
@@ -346,6 +417,7 @@
     }
 
     const opened_inputs = [];
+    const opened_sh = [];
 
     function handle_click(photo) {
         main = document.getElementById("main-photo")
@@ -379,25 +451,26 @@
     }
 
     function show(element) {
-        opened_inputs.push(element)
+        element = element['id']
 
-        console.log(element)
+        opened_inputs.push(element)
 
         if(opened_inputs.length <= 1){
             console.log(opened_inputs[0])
-            document.getElementById('input'+element).style.display = "flex";
+            document.getElementById(element).style.display = "flex";
 
         } else {
             console.log("2")
-            document.getElementById('input'+opened_inputs[0]).style.display = "none";
+            document.getElementById(opened_inputs[0]).style.display = "none";
             opened_inputs.splice(0,1)
-            document.getElementById('input'+element).style.display = "flex";
+            document.getElementById(element).style.display = "flex";
         }
     }
 
     function hide(element) {
-        console.log(element)
-        document.getElementById('input'+element).style.display = "none";
+        element = element['id']
+
+        document.getElementById(element).style.display = "none";
     }
 
     function highlight(element) {
@@ -405,6 +478,30 @@
         document.getElementById('comment'+element).style.animationPlayState = "running";
 
         setTimeout(() => { document.getElementById('comment'+element).style.animationPlayState = "paused"; }, 2000);
+    }
+
+    function showHide(to_show, to_hide) {
+        to_show = to_show['id']
+
+        opened_sh.push(to_show)
+
+        if(opened_sh.length <= 1){
+            console.log(opened_sh[0])
+            document.getElementById(to_show).style.display = "flex";
+
+        } else {
+            console.log("2")
+            document.getElementById(opened_sh[0]).style.display = "none";
+            opened_inputs.splice(0,1)
+            document.getElementById(to_show).style.display = "flex";
+        }
+
+        to_hide = to_hide['id']
+
+        console.log(to_hide)
+
+        document.getElementById(to_hide).style.display = "none";
+
     }
 
     </script>

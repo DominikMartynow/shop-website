@@ -236,6 +236,32 @@
     #reservations-filter {
         display: none;
     }
+
+    #comment-submit {
+        width: 30%;
+    }
+
+    .comment-options-list {
+        width: 70%;
+        height: 70%;
+        background: white;
+        position: fixed;
+        top: 15%;
+        left: 15%;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: space-between;
+        justify-content: space-between;
+    }
+
+    .comment-options-box {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 
