@@ -1,4 +1,4 @@
-Zatwierdzanie komentarzy, możliwość edycji wraz z historią edycji.
+Zatwierdzanie komentarzy, historią edycji.
 
 Otrzymanie kodu rezerwacji, wyslanie go na maila
 

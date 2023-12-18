@@ -1196,3 +1196,44 @@ textarea {
     font-size: 15px;
     border: 0;
 }
+
+#comments-history-box {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#comments-history {
+    width: 500px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(184, 184, 184);
+    background: white;
+    padding: 15px;
+    box-sizing: border-box;
+    z-index: 1 !important;
+
+}
+
+.comments-history-comment {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 100%;
+    border-bottom: 1px solid rgb(219, 219, 219);
+}
+
+.edit-date {
+    font-weight: bold;
+    color: rgb(184, 184, 184);
+}
+
+.previous-content {
+    line-height: 30px;
+}

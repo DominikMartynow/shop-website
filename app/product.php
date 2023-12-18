@@ -170,8 +170,22 @@
         <div id="product-comments-main">
             <?php 
                 if(is_logged()) {
+                    if(!empty($_GET['history'])) {
             ?>
+                <div id=comments-history-box>
+                    <div id="comments-history">
+                        <?php
+                                include 'history_comments.php';
 
+                                commentsHistory($_GET['history'], $_GET['product']);
+                        ?>
+                        <a href="product.php?product=<?php echo $_GET['product']?>#comment<?php echo $_GET['history']?>">Anuluj</a>
+                    </div>
+                </div>
+            <?php
+                    }
+            ?>
+                
                 <form action="db_conn/add_comment.php?destination=<?php echo $product?>&mode=c" id="comment-input-form" method="post">
                     <textarea  name="comment" id="comment-input" placeholder="Dodaj komentarz"></textarea>
                     <input type="submit" id='comment-submit' class=pointer value="Skomentuj">
@@ -259,13 +273,13 @@
                                                 <div class=comment-options-box>
                                                     <li class="comment-options-list-option pointer" onclick="showHide(<?php echo 'edit'.$row['id_comments']?>, <?php echo 'content'.$row['id_comments']?>)">Edytuj</li>
                                                     <a href='db_conn/delete_comment.php?destination=<?php echo $product?>&comment=<?php echo $row['id_comments']?>'><li class="comment-options-list-option">Usuń</li></a>
-                                                    <li class="comment-options-list-option">Historia edycji</li>
+                                                    <a href="product.php?product=<?php echo $product;?>&history=<?php echo $row['id_comments'];?>#comment<?php echo $row['id_comments'];?>"><li class="comment-options-list-option">Historia edycji</li></a>
                                                 </div>
                                             <?php
                                                 } else {
                                             ?>
                                                 <div class=comment-options-box>
-                                                    <li class="comment-options-list-option">Historia edycji</li>
+                                                    <a href="product.php?product=<?php echo $product;?>&history=<?php echo $row['id_comments'];?>#comment"><li class="comment-options-list-option">Historia edycji</li></a>
                                                 </div>
                                             <?php
                                                 }
@@ -360,6 +374,7 @@
                                                     <a class='comment-interaction pointer' onclick="show(<?php echo 'input'.$row_a['id_comments']?>)">Odpowiedz</a>
                                                     <a class='comment-interaction pointer' id='interactions-options' onclick="show(<?php echo 'options'.$row_a['id_comments']?>)">Opcje</a>
                                                 </div>
+
                                                 <ul class="comment-options-list" id="options<?php echo $row_a['id_comments']?>">
                                                     <a class='pointer answer-form-cancel-input' onclick="hide(<?php echo 'options'.$row_a['id_comments']?>)">Anuluj</a>
                                                     
@@ -371,13 +386,13 @@
                                                             <div class=comment-options-box>
                                                                 <li class="comment-options-list-option" onclick="showHide(<?php echo 'edit'.$row_a['id_comments']?>, <?php echo 'content'.$row_a['id_comments']?>)">Edytuj</li>
                                                                 <a href='db_conn/delete_comment.php?destination=<?php echo $product?>&comment=<?php echo $row_a['id_comments']?>&thread=<?php echo $row['id_comments']?>'><li class="comment-options-list-option">Usuń</li></a>
-                                                                <li class="comment-options-list-option">Historia edycji</li>
+                                                                <a href="product.php?product=<?php echo $product;?>&history=<?php echo $row_a['id_comments'];?>#comment<?php echo $row_a['id_comments'];?>"><li class="comment-options-list-option">Historia edycji</li></a>
                                                             </div>
                                                        <?php
                                                             } else {
                                                         ?>
                                                             <div class=comment-options-box>
-                                                                <li class="comment-options-list-option">Historia edycji</li>
+                                                                <a href="product.php?product=<?php echo $product;?>&history=<?php echo $row_a['id_comments'];?>#comment<?php echo $row_a['id_comments'];?>"><li class="comment-options-list-option">Historia edycji</li></a>
                                                             </div>
                                                         <?php
                                                             }
