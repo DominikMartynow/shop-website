@@ -187,7 +187,11 @@
                         while($row = mysqli_fetch_assoc($result)) {
                             array_push($reservations, $row['pickup_code']);
                             array_push($date, $row['reservation_date']);
-                            array_push($pickup, $row['reservation_pickup']);
+                            if($row['reservation_pickup'] == "0000-00-00") {
+                                array_push($pickup, "niezatwierdzone");
+                            } else {
+                                array_push($pickup, $row['reservation_pickup']);
+                            }
                             array_push($status, $row['reservation_status']);
                         }
 
@@ -226,7 +230,6 @@
                                     $product_photos = $row['product_photos'];
         
                                     $product_photos = explode(", ", $product_photos);
-
                 
                                     foreach($product_photos as $key => $fullname) {
                                         $photo_name = explode("/", $fullname);

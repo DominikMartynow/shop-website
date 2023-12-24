@@ -43,7 +43,11 @@
                             //Update w tabeli comments
                             $conn = OpenConn();
 
-                            $sql = "UPDATE comments SET comments_content = '".$edit."', date = '".$date."' WHERE id_comments = ".$comment."";
+                            if($_SESSION['admin'] == 1) {
+                                $sql = "UPDATE comments SET comments_content = '".$edit."', date = '".$date."' WHERE id_comments = ".$comment."";
+                            } else {
+                                $sql = "UPDATE comments SET comments_content = '".$edit."', date = '".$date."', verified = 0 WHERE id_comments = ".$comment."";
+                            }
                             
                             if(mysqli_query($conn, $sql)) {
                                 header("Location: ../product.php?product=".$_GET['destination']."#comment".$comment."");

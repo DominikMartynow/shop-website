@@ -17,7 +17,8 @@
                 ";
             }
         } else {
-            // header('Location: product.php?product='.$product.'#'.$comment);
+            echo "<a class=previous-content>Komentarz nie był edytowany</a>";
+
         }
     }
 ?>

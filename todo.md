@@ -1,4 +1,6 @@
-Zatwierdzanie komentarzy, historią edycji.
+Zatwierdzanie komentarzy
+
+anulowanie rezerwacji
 
 Otrzymanie kodu rezerwacji, wyslanie go na maila
 

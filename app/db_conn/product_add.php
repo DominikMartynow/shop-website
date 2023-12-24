@@ -51,7 +51,7 @@
                 $sql = "INSERT INTO `products`(`id_products`,`id_product_category`,`producer`,`product_name`,`product_description`,`product_photos`) VALUES('','".$product_category."','".$producer."','".$product_name."', '".$product_description."','".$photos."')";
 
                 if (mysqli_query($conn, $sql)) {
-                    header("Location: ../admin.php?success=Dodano ".$product_name);
+                    header("Location: ../admin.php?tool=new_product&success=Dodano ".$product_name);
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }
@@ -59,7 +59,7 @@
                 close($conn);
                 
             } else {
-                header("Location: ../admin.php?error=Uzupełnij wszystkie dane formularza");
+                header("Location: ../admin.php?tool=new_product&error=Uzupełnij wszystkie dane formularza");
             } 
         } else {
             header("Location: index.php");

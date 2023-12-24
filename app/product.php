@@ -170,14 +170,14 @@
         <div id="product-comments-main">
             <?php 
                 if(is_logged()) {
-                    if(!empty($_GET['history'])) {
+                    if(isset($_GET['history'])) {
             ?>
                 <div id=comments-history-box>
                     <div id="comments-history">
                         <?php
-                                include 'history_comments.php';
+                            include 'history_comments.php';
 
-                                commentsHistory($_GET['history'], $_GET['product']);
+                            commentsHistory($_GET['history'], $_GET['product']);
                         ?>
                         <a href="product.php?product=<?php echo $_GET['product']?>#comment<?php echo $_GET['history']?>">Anuluj</a>
                     </div>

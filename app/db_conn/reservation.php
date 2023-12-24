@@ -3,7 +3,7 @@
 
     if(isset($_SESSION['id']) && isset($_SESSION['password'])){
         include "connect.php";
-        $pickup = date("Y-m-d", strtotime("+3 days",time()));
+        // $pickup = date("Y-m-d", strtotime("+3 days",time()));
         $now = date("Y-m-d");
         $user = $_SESSION['id'];
         $pickup_code = time().$user;
@@ -23,7 +23,7 @@
             }
 
             foreach($products as $key => $product) {
-                $sql = "INSERT INTO `reservations`(`id_reservations`,`id_user`,`id_products`,`reservation_date`,`reservation_pickup`, `pickup_code`) VALUES ('', '".$user."', '".$product."', '".$now."', '".$pickup."', '".$pickup_code."')";
+                $sql = "INSERT INTO `reservations`(`id_reservations`,`id_user`,`id_products`,`reservation_date`,`reservation_pickup`, `pickup_code`) VALUES ('', '".$user."', '".$product."', '".$now."', '', '".$pickup_code."')";
                 
                 if(mysqli_query($conn, $sql)) {
                     array_push($insert_log, "SUCCESS inert".$product);
