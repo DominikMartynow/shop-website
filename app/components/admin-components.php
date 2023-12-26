@@ -35,10 +35,10 @@
         echo "</nav>";
     }
 
-    function selectReservationsStatuses() {
+    function adminSubMenu($table, $id_name, $value) {
         $conn = OpenConn();
 
-        $sql = "SELECT * FROM reservation_status";
+        $sql = "SELECT * FROM ".$table;
         $result = mysqli_query($conn, $sql);
 
         close($conn);
@@ -47,7 +47,7 @@
 
         if(mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_array($result)) {
-                $reseravtion_status[$row['id_reservation_status']] = $row['reservation_status'];
+                $reseravtion_status[$row[$id_name]] = $row[$value];
             }
         }
 

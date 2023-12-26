@@ -130,34 +130,34 @@ nav {
     flex-direction: column;
 }
 
-.orders-menu-option {
+.sub-menu-option {
     padding: 15px;
 }
 
-.orders-nav {
+.sub-nav {
     margin-top: 20px;
 }
 
-.orders-menu-option-active {
+.sub-menu-option-active {
     border-top: 3px solid rgb(86, 125, 255);
     background-color: rgb(173, 173, 173);
     box-sizing: border-box; 
 }
 
-#orders-list {
+#admin-list {
     margin-top: 20px;
     width: max-content;
     background: rgb(173, 173, 173);
 }
 
-#reservations-table {
+#list-table {
     overflow-y: scroll;
     height: 400px;
     display: block;
     border-collapse: collapse;
 }
 
-#reservations-table > thead {
+#list-table > thead {
     font-weight: bold;
 }
 
@@ -231,3 +231,11 @@ ul {
 .database-response {
     color: white;
 }
+
+.product-mini-photo {
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+}
+

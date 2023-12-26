@@ -9,8 +9,9 @@
 
         } else {
     ?>
+
     <nav class=orders-nav>
-        <a href='admin.php?tool=orders' class='menu-option orders-menu-option' id='home'>Wszystkie</a>
+        <a href='admin.php?tool=orders' class='menu-option sub-menu-option' id='home'>Wszystkie</a>
         <?php 
             //pobiera mozliwe statusy zamowienia
             if(isset($_GET['status'])) {
@@ -19,20 +20,20 @@
                 $status = '%';
             }    
 
-            $reservation_status = selectReservationsStatuses();
+            $reservation_status = adminSubMenu('reservation_status', 'id_reservation_status', 'reservation_status');
 
             foreach($reservation_status as $status_id => $value) {
                 if($status_id == $status) {
-                    echo "<a href='admin.php?tool=orders&status=".$status_id."'class='menu-option orders-menu-option orders-menu-option-active'>".$value."</a>";
+                    echo "<a href='admin.php?tool=orders&status=".$status_id."'class='menu-option sub-menu-option sub-menu-option-active'>".$value."</a>";
                 } else {
-                    echo "<a href='admin.php?tool=orders&status=".$status_id."'class='menu-option orders-menu-option'>".$value."</a>";
+                    echo "<a href='admin.php?tool=orders&status=".$status_id."'class='menu-option sub-menu-option'>".$value."</a>";
                 }
             }
         ?>
     </nav>
 
-    <div id="orders-list">
-        <table id="reservations-table" border>
+    <div id="admin-list">
+        <table id="list-table" border>
             <thead>
                 <tr><td>Klient</td><td>Numer telefonu</td><td>Data zamówienia</td><td>Data odbioru</td><td>Numer rezerwacji</td><td>Zarezerwowane produkty</td><td>Status</td></tr>
             </thead>

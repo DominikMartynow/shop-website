@@ -313,7 +313,7 @@
                         }
 
                         echo "
-                        <form id=search-form action='shop.php?".$url."' method='post'>
+                        <form action='shop.php?".$url."' method='post'>
                             <input type=hidden name=limit value=".$limit.">
                             <input type=submit id='show-more-button' class='center pointer' value='Pokaż więcej produktów'>
                         </form>";

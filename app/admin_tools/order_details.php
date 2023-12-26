@@ -7,7 +7,7 @@
 
     <div id="order-details-box">
         <?php 
-            $reservation_status = selectReservationsStatuses();
+            $reservation_status = adminSubMenu('reservation_status', 'id_reservation_status', 'reservation_status');
             $reservation = $_GET['reservation'];
 
             $conn = OpenConn();
