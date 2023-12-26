@@ -114,7 +114,7 @@
                                     }
                                 }
                             } else {
-                                echo '<li class="summary-list-option">Żadne zamówienie nie czeka na odebranie</li>';
+                                echo '<a>Żadne zamówienie nie czeka na odebranie</a>';
                             }
                             
                             echo '<div class="summary-category">';

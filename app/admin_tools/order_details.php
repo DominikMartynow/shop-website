@@ -1,5 +1,5 @@
-<nav class=orders-nav>
-    <a href='admin.php?tool=orders&status=<?php echo $_GET['status']?>' class='menu-option orders-menu-option' id='home'>Lista zamówień</a>
+<nav class=sub-nav>
+    <a href='admin.php?tool=orders&status=<?php echo $_GET['status']?>' class='menu-option sub-menu-option' id='home'>Lista zamówień</a>
 </nav>
 
 <div class="tool-body" id="order-details-body">
@@ -21,10 +21,10 @@
                 echo "<div class='order-details-area' id='order-details-client-data'>";
                 echo "<h1 class=admin-title-3>Dane klienta:</h1>";
                 echo "<ul class='admin-details-list'>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Imię: </a><a class=-details-list-value>".$row['firstname']."</li>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Nazwisko: </a><a class=-details-list-value>".$row['secondname']."</li>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Numer telefonu: </a><a class=-details-list-value>".$row['telnumber']."</li>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>E-mail: </a><a class=-details-list-value>".$row['mail']."</li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Imię: </a><a class=-details-list-value>".$row['firstname']."</a></li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Nazwisko: </a><a class=-details-list-value>".$row['secondname']."</a></li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Numer telefonu: </a><a class=-details-list-value>".$row['telnumber']."</a></li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>E-mail: </a><a class=-details-list-value>".$row['mail']."</a></li>";
                 echo "</ul>";
                 echo "</div>";
 
@@ -32,11 +32,11 @@
                 echo "<div class='order-details-area' id='order-details-client-data'>";
                 echo "<h1 class=admin-title-3>Dane zamówienia:</h1>";
                 echo "<ul class='admin-details-list'>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Numer zamówienia: </a><a class=-details-list-value>".$row['pickup_code']."</li>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Data zamówienia: </a><a class=-details-list-value>".$row['reservation_date']."</li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Numer zamówienia: </a><a class=-details-list-value>".$row['pickup_code']."</a></li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Data zamówienia: </a><a class=-details-list-value>".$row['reservation_date']."</a></li>";
                 
                 echo "<form id='admin-tools-box' action='db_conn/order_status_change.php?order=".$row['pickup_code']."' method='post'>";
-                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Data odbioru: </a><a class=-details-list-value><input type=text onfocus=(this.type='date') onblur=(this.type='text') name=pickup_date placeholder=".$row['reservation_pickup']."></li>";
+                echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Data odbioru: </a><a class=-details-list-value><input type=text onfocus=(this.type='date') onblur=(this.type='text') name=pickup_date placeholder=".$row['reservation_pickup']."></a></li>";
                 echo "<li class='admin-details-list-option'><a class=admin-details-list-caption>Status zamówienia: </a><a class=-details-list-value>";
                 
                 echo "<select name='status' id='admin-tools-input' onchange='this.form.submit()'>";
@@ -94,13 +94,4 @@
             close($conn);
         ?>
     </div>
-
-
-        
-            <?php
-
-
-            ?>
-        </select>
-    </form>
 </div>

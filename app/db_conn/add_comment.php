@@ -10,7 +10,6 @@
         if(is_logged()) {
             //jest komentarz
             if(!empty($_POST['comment'])) {
-                session_start();
                 include("connect.php");
 
                 function validate($data) {
@@ -36,6 +35,8 @@
                     $mode = 'c';
                 }
 
+                echo $_SESSION['admin'];
+
                 //czy user = admin
                 if($_SESSION['admin'] == 1) {
                     //dodaje bez zatwierdzenia
@@ -59,12 +60,12 @@
 
                     //tryb comment
                     if($mode == 'c') {
-                        $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '', '".$product."', '".$date."', '/')";
+                        $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '0', '".$product."', '".$date."', '/')";
                     //tryb answer
                     } else if($mode == 'a') {
                         //znany komentarz wątku
                         if(isset($_POST['path'])) {
-                            $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '', '".$product."', '".$date."', '".$_POST['path']."')";                        
+                            $sql = "INSERT INTO `handel_wielobranzowy`.`comments`(`id_comments`,`comments_author`,`comments_content`,`verified`,`id_product_comments`, `date`, `path`) VALUES ('', '".$author."', '".$comment."', '0', '".$product."', '".$date."', '".$_POST['path']."')";                        
                         //nieznany komentarz wątku
                         } else {
                             header("Location: ../product.php?product=".$product."");
@@ -78,7 +79,7 @@
 
                     //lokalizacja komentarza ustalona
                     if(isset($_GET['comment'])) {
-                        header("Location: ../product.php?product=".$product."#comment".$_GET['comment']);
+                        // header("Location: ../product.php?product=".$product."#comment".$_GET['comment']);
                     //lokalizacja komentarza nieustalona
                     } else {
                         header("Location: ../product.php?product=".$product."");

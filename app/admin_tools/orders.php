@@ -10,7 +10,7 @@
         } else {
     ?>
 
-    <nav class=orders-nav>
+    <nav class=sub-nav>
         <a href='admin.php?tool=orders' class='menu-option sub-menu-option' id='home'>Wszystkie</a>
         <?php 
             //pobiera mozliwe statusy zamowienia

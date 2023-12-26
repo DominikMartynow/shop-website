@@ -32,7 +32,7 @@
 
                 $short_description = substr($row['product_description'], 0, 50)."...";
 
-                echo "<tr><td><div class='product-mini-photo' style='background-image: url(uploaded_photos/".$main_photo.")'></div></td><td>".$row['product_name']."</td><td>".$row['producer']."</td><td>".$row['product_category_name']."</td><td>".$short_description."</td></tr>";
+                echo "<tr><td><div class='product-mini-photo' style='background-image: url(uploaded_photos/".$main_photo.")'></div></td><td><a href='admin.php?tool=edit_product&category=".$row['id_product_category']."&product=".$row['id_products']."'>".$row['product_name']."</a></td><td>".$row['producer']."</td><td>".$row['product_category_name']."</td><td>".$short_description."</td></tr>";
 
             }
         }

@@ -198,7 +198,7 @@
 
                     $conn = OpenConn();
 
-                    $sql = "SELECT * FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_product_comments = '".$product."' ORDER BY date DESC";
+                    $sql = "SELECT * FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_product_comments = '".$product."' AND verified = '1' ORDER BY date DESC";
                     $result = mysqli_query($conn, $sql);
                     close($conn);
 
@@ -302,7 +302,7 @@
                                     
                                     $conn_a = OpenConn();
 
-                                    $sql_a = "SELECT * FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_product_comments = '".$product."' AND path LIKE '/".$row['id_comments']."%' ORDER BY date ASC";
+                                    $sql_a = "SELECT * FROM comments INNER JOIN users ON users.id_user = comments.comments_author WHERE id_product_comments = '".$product."' AND path LIKE '/".$row['id_comments']."%' AND verified = '1' ORDER BY date ASC";
                                     $result_a = mysqli_query($conn_a, $sql_a);
                                     
                                     if(mysqli_num_rows($result_a) > 0) {
