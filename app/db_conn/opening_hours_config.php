@@ -14,7 +14,7 @@
                 $result = mysqli_query($conn, $sql);
 
                 if(mysqli_num_rows($result) > 0) {
-                    header("Location: ../admin.php?error=juz istnieje zapisana zmiana dla tej daty");
+                    header("Location: ../admin.php?tool=opening_hours&error=juz istnieje zapisana zmiana dla tej daty");
                 } else {
                     if(isset($_POST['is_open'])) {
                         if(!empty($_POST['config_date']) && !empty($_POST['opening_hour']) && !empty($_POST['closing_hour'])) {
@@ -24,7 +24,7 @@
                 
                             $sql = "INSERT INTO `exceptions`(`id_exception`, `date`, `is_open`, `open`, `close`) VALUES ('', '".$cdate."', '1', '".$ohour."', '".$chour."')";
                         } else {
-                            header("Location: ../admin.php?error=uzupelnij potrzebne dane");
+                            header("Location: ../admin.php?tool=opening_hours&error=uzupelnij potrzebne dane");
                             exit();
                         }
         
@@ -33,7 +33,7 @@
                     }
             
                     if (mysqli_query($conn, $sql)) {
-                        header("Location: ../admin.php?success=zmiany zostaly zapisane - zmieniona data: ".$cdate);
+                        header("Location: ../admin.php?tool=opening_hours&success=zmiany zostaly zapisane - zmieniona data: ".$cdate);
                     } else {
                         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                     }
@@ -42,7 +42,7 @@
                 }
                 
             } else {
-                header("Location: ../admin.php?error=uzupelnij potrzebne dane");
+                header("Location: ../admin.php?tool=opening_hours&error=uzupelnij potrzebne dane");
                 exit();
             }
         } else {

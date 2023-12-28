@@ -3,7 +3,15 @@
 
     <div class="flex-direction-row">
         <div id="opening_hours-form-box">
-s
+            <form id=config_date_form action="db_conn/opening_hours_config.php" method="POST">
+                <ul class='admin-details-list'>
+                    <li class='admin-details-list-option'><a class=admin-details-list-caption>Data: </a><a class=-details-list-value><input type="date" name="config_date" id="config_date" required></a></li>
+                    <li class='admin-details-list-option'><a class=admin-details-list-caption>Czy otwarte: </a><a class=-details-list-value><input type="checkbox" name="is_open" id="is_open"></a></li>
+                    <li class='admin-details-list-option'><a class=admin-details-list-caption>Godzina otwarcia: </a><a class=-details-list-value><input type="number" name="opening_hour" id="opening_hour"></a></li>
+                    <li class='admin-details-list-option'><a class=admin-details-list-caption>Godzina zamknięcia: </a><a class=-details-list-value><input type="number" name="closing_hour" id="closing_hour"></a></li>
+                    <li class='admin-details-list-option'><a class=admin-details-list-caption>Godzina otwarcia: </a><a class=-details-list-value><input type="submit" value="Wyślij zmiany"></a></li>
+                </ul>
+            </form>
         </div>
 
         <div id="opening-hours-list">
