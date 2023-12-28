@@ -1,40 +1,44 @@
 <div class='tool-body' id='opening_hours-body'>
-    <h1 class=admin-title>Komentarze</h1>
+    <h1 class=admin-title>Godziny otwarcia/zamknięcia</h1>
 
-    <div id="opening_hours-form-box">
+    <div class="flex-direction-row">
+        <div id="opening_hours-form-box">
+s
+        </div>
 
-    </div>
+        <div id="opening-hours-list">
+            <div id="admin-list">
+                <table id="list-table" border>
 
-    <div id="opening-hours-list">
-        <div id="admin-list">
-            <table id="list-table" border>
                 <thead>
-                    <tr><td>Użytkownik</td><td>Komentarz</td><td>Usuń</td><td>Zaakceptuj</td></tr>
+                    <tr><td>Lp.</td><td>Zmieniona data</td><td>Zamknięte/Otwarte</td><td>Otwarcie</td><td>Zamkniecie</td><td>Usuń</td></tr>
                 </thead>
-            
-                <tbody>
                     <?php 
-                    
-                    $conn = OpenConn();
+                        $date = date('Y-m-d');
 
-                    $sql = "SELECT * FROM comments c INNER JOIN users u ON c.comments_author = u.id_user WHERE c.verified LIKE '".$status."'";
-                    $result = mysqli_query($conn, $sql);
+                        $conn = OpenConn();
 
-                    close($conn);
+                        $sql = "SELECT * FROM exceptions WHERE date >= '".$date."'";
+                        $result = mysqli_query($conn, $sql);
 
-                    if(mysqli_num_rows($result)) {
-                        while($row = mysqli_fetch_assoc($result)){
-                            if($row['verified'] == 1) {
-                                echo "<tr><td>".$row['firstname']."</td><td>".$row['comments_content']."</td><td><a href='db_conn/reject_comment.php?comment=".$row['id_comments']."&status=".$status."'>usuń</a></td><td>-</td></tr>";
-                            } else {
-                                echo "<tr><td>".$row['firstname']."</td><td>".$row['comments_content']."</td><td><a href='db_conn/reject_comment.php?comment=".$row['id_comments']."&status=".$status."'>usuń</a></td><td><a href='db_conn/accept_comment.php?comment=".$row['id_comments']."&status=".$status."'>Zaakceptuj</a></td></tr>";
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                $isOpen = $row['is_open'];
+
+                                if($isOpen == 1){
+                                    $isOpen = "Otwarte";
+                                } else {
+                                    $isOpen = "Zamkniete";
+                                }
+                                print_r($_SESSION);
+                                echo "<tr><td>".$row["id_exception"]."</td><td>".$row["date"]."</td><td>".$isOpen."</td><td>".$row['open']."</td><td>".$row['close']."</td><td><a href='db_conn/delete_exception.php?id_exception=".$row['id_exception']."'>Usuń</a></td></tr>";
                             }
                         }
-                    }
 
+                        close($conn);
                     ?>
-                </tbody>
-            </table>
+                </table>
+            </div>
         </div>
     </div>
 </div>

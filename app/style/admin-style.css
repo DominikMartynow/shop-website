@@ -239,3 +239,14 @@ ul {
     background-size: cover;
 }
 
+.flex-direction-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: max-content;
+}
+
+#opening_hours-form-box, #opening-hours-list {
+    width: 50%;
+    height: 100%;
+}
