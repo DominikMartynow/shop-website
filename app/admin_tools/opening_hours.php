@@ -38,7 +38,7 @@
                                 } else {
                                     $isOpen = "Zamkniete";
                                 }
-                                print_r($_SESSION);
+                                
                                 echo "<tr><td>".$row["id_exception"]."</td><td>".$row["date"]."</td><td>".$isOpen."</td><td>".$row['open']."</td><td>".$row['close']."</td><td><a href='db_conn/delete_exception.php?id_exception=".$row['id_exception']."'>Usuń</a></td></tr>";
                             }
                         }
