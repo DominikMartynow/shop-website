@@ -1,7 +1,5 @@
 <?php 
-    session_save_path("/usr/local/php83/etc");
-
-    session_start();
+    // session_start();
 
     include 'connect.php';
 
@@ -38,6 +36,8 @@
 
                 if($row["admin"] == 1) {
                     $_SESSION["admin"] = 1;
+
+                    print_r($_SESSION);
                     header("Location: ../admin.php");
                 } else if(isset($_GET["destination"])){
                     $_SESSION['admin'] = 0;
