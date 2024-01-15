@@ -71,7 +71,7 @@
                             } else if($dayOfWeek == 6) {
                                 if($time < 8) {
                                     echo "Dzisiaj sklep jest otwarty od godziny <b>8:00</b>";
-                                } else if ($time >= 8 && $time <= 17) {
+                                } else if ($time >= 8 && $time <= 13) {
                                     echo "Dzisiaj sklep jest otwarty do godziny <b>13:00</b>";
                                 } else {
                                     echo "Sklep jest już dzisiaj <b>nieczynny</b>";

@@ -21,6 +21,8 @@
                 <li class="menu-item">
                     <a href="basket.php">Koszyk</a>
                         <?php 
+                            session_save_path("/usr/local/php83/etc");
+
                             session_start();
 
                             include "db_conn/connect.php";
@@ -30,8 +32,6 @@
                                 if(countBasket($_SESSION['id']) > 0) {
                                     echo "<a id=count-basket>".countBasket($_SESSION['id'])."</a>";
                                 }
-                            } else {
-
                             }
                         ?>
                 </li>
@@ -53,6 +53,8 @@
                         <a href="db_conn/logout.php?destination=../shop.php?category=<?php echo $category;?>"><li class=wrapper-account-menu-item id=wrapper-logout>Wyloguj się - <?php echo $_SESSION['firstname']?></li></a>    
                         <?php 
                             } else {
+                                echo session_save_path();
+                                print_r($_SESSION);
                         ?>        
                         
                         <form id='login-form-wrapper' id=inside action="db_conn/login.php?destination=../shop.php?category=<?php echo $category;?>" method="post">

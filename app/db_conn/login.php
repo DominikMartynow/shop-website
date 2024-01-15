@@ -1,4 +1,6 @@
 <?php 
+    session_save_path("/usr/local/php83/etc");
+
     session_start();
 
     include 'connect.php';
